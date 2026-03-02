@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: jacechadwick17/tke-engineering-website
   branch: main
 
 media_folder: "public/uploads"
