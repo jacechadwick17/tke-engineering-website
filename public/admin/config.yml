@@ -2,6 +2,7 @@ backend:
   name: github
   repo: jacechadwick17/tke-engineering-website
   branch: main
+  base_url: https://tkeengineering.netlify.app
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
