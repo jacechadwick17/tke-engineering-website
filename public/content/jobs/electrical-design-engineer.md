@@ -2,7 +2,7 @@
 title: Electrical Design Engineer
 location: Houston, TX
 department: Electrical
-active: false
+active: true
 description: >
   Perform discipline engineering design for natural gas and oil facilities of
   the assigned work area and complete within planned schedule and budget, in
