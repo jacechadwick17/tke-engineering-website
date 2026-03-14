@@ -1,5 +1,5 @@
 ---
-backgroundImage: https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80
+backgroundImage: /uploads/webcomp04_03.png
 titleLine1: TKE Engineering & Design
 titleLine2: "  "
 subtitle: Precision engineering solutions for the gas and pipeline industry.
