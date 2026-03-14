@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: jacechadwick17/tke-engineering-website
   branch: main
+  base_url: https://tke-engineering-website1-1o6r46m7e-jacechadwick17s-projects.vercel.app
+  auth_endpoint: oauth
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
