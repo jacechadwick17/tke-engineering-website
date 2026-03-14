@@ -20,8 +20,8 @@ collections:
       preview: false
     fields:
       - { label: "Background Image", name: "backgroundImage", widget: "image", hint: "Main hero background photo" }
-      - { label: "Title Line 1", name: "titleLine1", widget: "string", default: "TKE Engineering", hint: "First line of title (e.g., 'TKE Engineering')" }
-      - { label: "Title Line 2", name: "titleLine2", widget: "string", default: "& Design", hint: "Second line of title (e.g., '& Design') - leave blank for no second line" }
+      - { label: "Title Line 1", name: "titleLine1", widget: "string", default: "TKE Engineering", hint: "First line of title" }
+      - { label: "Title Line 2", name: "titleLine2", widget: "string", default: "& Design", hint: "Second line of title - leave blank for none" }
       - { label: "Subtitle", name: "subtitle", widget: "text" }
       - { label: "CTA Button 1 Text", name: "cta1Text", widget: "string", default: "Explore Our Services" }
       - { label: "CTA Button 1 Link", name: "cta1Link", widget: "string", default: "#services" }
