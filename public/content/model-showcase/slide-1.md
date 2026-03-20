@@ -1,6 +1,6 @@
 ---
-title: 3D Conceptual Model
-description: Initial CAD design and 3D visualization
+title: Conceptual to Operational
+description: Initial CAD design and Drone Photo
 beforeImage: /uploads/dji_02289.jpg
 afterImage: /uploads/gcx4.png
 order: 1
