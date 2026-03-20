@@ -1,6 +1,6 @@
 ---
 backgroundImage: /uploads/moss-point-comp-stajpg.jpg
-titleLine1: TKE Engineering & Design
+titleLine1: TKE Engineering
 titleLine2: " "
 subtitle: Precision engineering solutions for the gas and pipeline industry.
   Serving the continental United States for over 30 years.
