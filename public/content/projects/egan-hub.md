@@ -1,13 +1,14 @@
 ---
-name: Egan Hub
-company: Egan Hub Storage
-date: Completed 05/2010
-location: Acadia Parish, LA
+name: Custody Transfer MS
+company: " "
+date: " "
+location: Brazoria Co., TX
 description: >
-  Engineering design and construction management for new gas storage facility including dehydration units, metering stations, and pipeline infrastructure.
-image: https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80
+  Bi-Directional Meter site with dual 16" meter runs, four control valve runs,
+  and enhanced gas chromatograph building.
+image: /uploads/coastal-bend-ngpl-ms.png
 materials:
-  - Dehydration Units
-  - Metering Stations
-  - Pipeline Infrastructure
+  - Inlet Filter Separators
+  - Ultrasonic Meters
+  - Gas Regulation
 ---
