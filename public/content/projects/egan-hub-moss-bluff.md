@@ -1,11 +1,14 @@
 ---
-name: Egan Hub/Moss Bluff
-company: Egan Hub & Moss Bluff
+name: NGPL Station 348
+company: " "
 date: Completed 11/2012
-location: Texas/Louisiana
+location: Louisiana
 description: >
-  Integrated pipeline interconnect project connecting Egan Hub to Moss Bluff storage facility with full automation and SCADA integration.
-image: https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&q=80
+  This station is a key provider of gas to the Sabine Pass Liquefaction Plant.
+  The station is located in Cameron Parish, LA and is elevated 18' on a concrete
+  platform to combat against storm surges. This station is comprised of (1)
+  Solar Titan 130 with the capability of compressing 450 mmscfd.
+image: /uploads/348-model.png
 materials:
   - Pipeline Interconnect
   - SCADA Integration
