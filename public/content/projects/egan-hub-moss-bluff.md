@@ -10,7 +10,6 @@ description: >
   Solar Titan 130 with the capability of compressing 450 mmscfd.
 image: /uploads/348-model.png
 materials:
-  - Pipeline Interconnect
-  - SCADA Integration
-  - Automation Systems
+  - Solar Titan 130
+  - Elevated Platform
 ---
