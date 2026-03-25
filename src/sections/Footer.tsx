@@ -27,7 +27,6 @@ export default function Footer() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Logo fill animation on scroll
       gsap.fromTo(
         logoRef.current,
         { opacity: 0, y: 30 },
@@ -58,6 +57,31 @@ export default function Footer() {
     }
   };
 
+  // Default logo SVG
+  const DefaultLogo = () => (
+    <svg
+      width="60"
+      height="60"
+      viewBox="0 0 100 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="100" height="100" rx="8" fill="#1a1a1a" />
+      <text
+        x="50"
+        y="65"
+        textAnchor="middle"
+        fill="white"
+        fontSize="42"
+        fontWeight="bold"
+        fontFamily="Oswald, sans-serif"
+      >
+        TKE
+      </text>
+      <rect x="10" y="75" width="80" height="2" fill="#009966" />
+    </svg>
+  );
+
   if (loading) {
     return (
       <footer ref={footerRef} className="relative bg-[#0a0a0a] border-t border-white/5">
@@ -82,27 +106,17 @@ export default function Footer() {
           {/* Logo & Description */}
           <div ref={logoRef} className="md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <svg
-                width="60"
-                height="60"
-                viewBox="0 0 100 100"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="100" height="100" rx="8" fill="#1a1a1a" />
-                <text
-                  x="50"
-                  y="65"
-                  textAnchor="middle"
-                  fill="white"
-                  fontSize="42"
-                  fontWeight="bold"
-                  fontFamily="Oswald, sans-serif"
-                >
-                  TKE
-                </text>
-                <rect x="10" y="75" width="80" height="2" fill="#2d8a7a" />
-              </svg>
+              {settings?.logoUrl ? (
+                <img
+                  src={settings.logoUrl}
+                  alt="TKE Logo"
+                  width={60}
+                  height={60}
+                  className="object-contain transition-transform duration-300 hover:scale-105"
+                />
+              ) : (
+                <DefaultLogo />
+              )}
               <div>
                 <span className="text-white font-bold text-lg block">
                   TKE Engineering
@@ -131,7 +145,7 @@ export default function Footer() {
                   <a
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
-                    className="text-[#888888] hover:text-[#2d8a7a] transition-colors duration-300 text-sm"
+                    className="text-[#888888] hover:text-[#009966] transition-colors duration-300 text-sm"
                   >
                     {link.name}
                   </a>
@@ -154,7 +168,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`tel:${settings?.phone?.replace(/\./g, '')}`}
-                  className="text-[#888888] hover:text-[#2d8a7a] transition-colors duration-300"
+                  className="text-[#888888] hover:text-[#009966] transition-colors duration-300"
                 >
                   {settings?.phone}
                 </a>
@@ -162,7 +176,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`mailto:${settings?.email}`}
-                  className="text-[#888888] hover:text-[#2d8a7a] transition-colors duration-300"
+                  className="text-[#888888] hover:text-[#009966] transition-colors duration-300"
                 >
                   {settings?.email}
                 </a>
@@ -189,7 +203,7 @@ export default function Footer() {
                   <a
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
-                    className="text-[#888888] hover:text-[#2d8a7a] transition-colors duration-300 text-sm"
+                    className="text-[#888888] hover:text-[#009966] transition-colors duration-300 text-sm"
                   >
                     {link.name}
                   </a>
