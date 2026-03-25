@@ -12,7 +12,7 @@
     --card-foreground: 0 0% 88%;
     --popover: 0 0% 8%;
     --popover-foreground: 0 0% 88%;
-    --primary: 170 52% 35%;
+    --primary: 160 100% 30%;
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 12%;
     --secondary-foreground: 0 0% 88%;
@@ -24,12 +24,12 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 20%;
     --input: 0 0% 15%;
-    --ring: 170 52% 35%;
+    --ring: 160 100% 30%;
     --radius: 0.5rem;
     
     --dark: #0f0f0f;
     --dark-secondary: #1a1a1a;
-    --primary-teal: #00A884;
+    --primary-teal: #009966;
     --accent-red: #c94e4e;
     --text-light: #e0e0e0;
     --text-muted: #888888;
@@ -71,7 +71,7 @@
   }
   
   .text-gradient {
-    background: linear-gradient(135deg, #2d8a7a 0%, #3dbba5 100%);
+    background: linear-gradient(135deg, #009966 0%, #00cc88 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -90,7 +90,7 @@
   
   .card-hover:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(45, 138, 122, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 153, 102, 0.15);
   }
   
   .link-underline {
@@ -104,7 +104,7 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: #2d8a7a;
+    background: #009966;
     transition: width 0.3s ease;
   }
   
@@ -113,13 +113,13 @@
   }
   
   .btn-primary {
-    @apply px-6 py-3 bg-[#2d8a7a] text-white font-semibold rounded transition-all duration-300;
+    @apply px-6 py-3 bg-[#009966] text-white font-semibold rounded transition-all duration-300;
   }
   
   .btn-primary:hover {
-    @apply bg-[#237a6a];
+    @apply bg-[#007a52];
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(45, 138, 122, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 153, 102, 0.3);
   }
   
   .noise-overlay {
@@ -185,10 +185,10 @@
   
   @keyframes pulse-glow {
     0%, 100% {
-      box-shadow: 0 0 20px rgba(45, 138, 122, 0.3);
+      box-shadow: 0 0 20px rgba(0, 153, 102, 0.3);
     }
     50% {
-      box-shadow: 0 0 40px rgba(45, 138, 122, 0.5);
+      box-shadow: 0 0 40px rgba(0, 153, 102, 0.5);
     }
   }
   
@@ -207,16 +207,16 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2d8a7a;
+  background: #009966;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #237a6a;
+  background: #007a52;
 }
 
 /* Selection color */
 ::selection {
-  background: rgba(45, 138, 122, 0.3);
+  background: rgba(0, 153, 102, 0.3);
   color: #fff;
 }
