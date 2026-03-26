@@ -6,7 +6,7 @@ import { useSettings } from '../hooks/useContent';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function Footer() {
+export default function Footer() {
   const { settings, loading } = useSettings();
   const footerRef = useRef<HTMLElement>(null);
 
