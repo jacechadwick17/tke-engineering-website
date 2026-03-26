@@ -6,7 +6,7 @@ import { useJobs, useSettings } from '../hooks/useContent';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function CareersContact() {
+export default function CareersContact() {
   const { jobs, loading: jobsLoading } = useJobs();
   const { settings, loading: settingsLoading } = useSettings();
   const [formData, setFormData] = useState({
