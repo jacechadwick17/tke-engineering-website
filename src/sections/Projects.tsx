@@ -6,7 +6,7 @@ import { useProjects } from '../hooks/useContent';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function Projects() {
+eexport default function Projects() {
   const { projects, loading } = useProjects();
   const [currentIndex, setCurrentIndex] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
