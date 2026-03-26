@@ -6,7 +6,7 @@ import { useProjects } from '../hooks/useContent';
 
 gsap.registerPlugin(ScrollTrigger);
 
-eexport default function Projects() {
+export default function Projects() {
   const { projects, loading } = useProjects();
   const [currentIndex, setCurrentIndex] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
@@ -92,12 +92,9 @@ eexport default function Projects() {
     );
   }
 
-
-
   return (
     <section id="projects" ref={sectionRef} className="py-24 md:py-32 bg-[#f8f9fa] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <div ref={titleRef} className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a1a1a] mb-4">
             Featured Projects
@@ -107,7 +104,6 @@ eexport default function Projects() {
           </p>
         </div>
 
-        {/* Main Carousel */}
         <div ref={carouselRef} className="relative mb-8">
           <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-xl overflow-hidden shadow-2xl">
             {projects.map((project, index) => (
@@ -122,10 +118,7 @@ eexport default function Projects() {
                   alt={project.title}
                   className="w-full h-full object-cover"
                 />
-                {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                {/* Project Info */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
                   <span className="inline-block px-3 py-1 bg-[#009966] text-white text-xs md:text-sm font-medium rounded-full mb-3 md:mb-4">
                     {project.category}
@@ -152,7 +145,6 @@ eexport default function Projects() {
             ))}
           </div>
 
-          {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
             className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110"
@@ -168,13 +160,11 @@ eexport default function Projects() {
             <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-[#1a1a1a]" />
           </button>
 
-          {/* Slide Counter */}
           <div className="absolute top-4 right-4 z-20 bg-black/60 text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium">
             {currentIndex + 1} / {projects.length}
           </div>
         </div>
 
-        {/* Thumbnail Navigation */}
         <div ref={thumbnailsRef} className="flex gap-2 md:gap-4 overflow-x-auto pb-4 scrollbar-hide">
           {projects.map((project, index) => (
             <button
