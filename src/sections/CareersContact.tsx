@@ -64,15 +64,10 @@ export default function CareersContact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1500));
-
     setIsSubmitting(false);
     setIsSubmitted(true);
     setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-
-    // Reset success message after 5 seconds
     setTimeout(() => setIsSubmitted(false), 5000);
   };
 
@@ -100,7 +95,6 @@ export default function CareersContact() {
     <section id="careers" ref={sectionRef} className="py-24 md:py-32 bg-[#f8f9fa]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Careers Column */}
           <div ref={careersRef}>
             <div className="mb-8">
               <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a1a] mb-4">
@@ -111,7 +105,6 @@ export default function CareersContact() {
               </p>
             </div>
 
-            {/* Job Listings */}
             <div className="space-y-4">
               {jobsLoading ? (
                 <div className="animate-pulse space-y-4">
@@ -171,7 +164,6 @@ export default function CareersContact() {
             </div>
           </div>
 
-          {/* Contact Column */}
           <div ref={contactRef} id="contact">
             <div className="mb-8">
               <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a1a] mb-4">
@@ -182,7 +174,6 @@ export default function CareersContact() {
               </p>
             </div>
 
-            {/* Contact Info Cards */}
             <div className="grid grid-cols-2 gap-4 mb-8">
               <div className="bg-white p-4 rounded-lg shadow-sm">
                 <MapPin className="w-6 h-6 text-[#009966] mb-2" />
@@ -202,7 +193,6 @@ export default function CareersContact() {
               </div>
             </div>
 
-            {/* Contact Form */}
             <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-sm">
               {isSubmitted ? (
                 <div className="text-center py-8">
