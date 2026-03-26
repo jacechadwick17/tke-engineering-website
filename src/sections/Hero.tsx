@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import { ArrowRight, Play } from 'lucide-react';
 import { useHero } from '../hooks/useContent';
 
-export function Hero() {
+export default function Hero() {
   const { hero, loading } = useHero();
   const heroRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
