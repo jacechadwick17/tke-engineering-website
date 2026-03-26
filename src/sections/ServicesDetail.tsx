@@ -16,7 +16,7 @@ interface Service {
   icon: string;
 }
 
-export function ServicesDetail() {
+export default function ServicesDetail() {
   const { services, loading } = useServices();
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
