@@ -164,13 +164,13 @@ export default function ServicesDetail() {
                     <button
                       onClick={() => setSelectedService(service.slug)}
                       className={`w-full flex items-center gap-4 py-3 px-4 rounded-lg transition-all duration-300 text-left ${
-                        isHovered ? 'bg-[#2d8a7a]/10' : 'bg-transparent'
+                        isHovered ? 'bg-[#009966]/10' : 'bg-transparent'
                       }`}
                     >
                       <Icon
                         size={20}
                         className={`transition-colors duration-300 flex-shrink-0 ${
-                          isHovered ? 'text-[#2d8a7a]' : 'text-[#888888]'
+                          isHovered ? 'text-[#009966]' : 'text-[#888888]'
                         }`}
                       />
                       <span
@@ -185,7 +185,7 @@ export default function ServicesDetail() {
                       <div
                         className={`ml-auto w-2 h-2 rounded-full transition-all duration-300 ${
                           isHovered
-                            ? 'bg-[#2d8a7a] scale-100'
+                            ? 'bg-[#009966] scale-100'
                             : 'bg-transparent scale-0'
                         }`}
                       />
@@ -203,7 +203,7 @@ export default function ServicesDetail() {
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
                 WHO WE ARE
               </h3>
-              <div className="h-1 w-20 bg-[#2d8a7a] mb-6" />
+              <div className="h-1 w-20 bg-[#009966] mb-6" />
               <p className="text-[#888888] leading-relaxed text-sm md:text-base">
                 {settings?.aboutText}
               </p>
@@ -214,7 +214,7 @@ export default function ServicesDetail() {
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
                 WHAT WE DO
               </h3>
-              <div className="h-1 w-20 bg-[#2d8a7a] mb-6" />
+              <div className="h-1 w-20 bg-[#009966] mb-6" />
               <p className="text-[#888888] leading-relaxed text-sm md:text-base">
                 {settings?.whatWeDoText}
               </p>
@@ -223,7 +223,7 @@ export default function ServicesDetail() {
             {/* Stats - Only 2 stats (removed 50+ engineers) */}
             <div className="grid grid-cols-2 gap-6 pt-8 border-t border-white/10">
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-[#2d8a7a]">
+                <div className="text-3xl md:text-4xl font-bold text-[#009966]">
                   {settings?.yearsExperience || '30+'}
                 </div>
                 <div className="text-xs md:text-sm text-[#888888] mt-1">
@@ -231,7 +231,7 @@ export default function ServicesDetail() {
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-[#2d8a7a]">
+                <div className="text-3xl md:text-4xl font-bold text-[#009966]">
                   {settings?.projectsCompleted || '500+'}
                 </div>
                 <div className="text-xs md:text-sm text-[#888888] mt-1">
@@ -256,7 +256,7 @@ export default function ServicesDetail() {
                   {(() => {
                     const Icon =
                       iconMap[selectedServiceData.icon] || Settings;
-                    return <Icon size={28} className="text-[#2d8a7a]" />;
+                    return <Icon size={28} className="text-[#009966]" />;
                   })()}
                   {selectedServiceData.name}
                 </>
