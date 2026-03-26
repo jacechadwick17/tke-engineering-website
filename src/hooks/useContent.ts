@@ -1,217 +1,288 @@
 import { useState, useEffect } from 'react';
 
-export interface Job {
-  slug: string;
-  title: string;
-  location: string;
-  department: string;
-  active: boolean;
-  description: string;
-  requirements: string[];
-}
-
-export interface Project {
-  slug: string;
-  name: string;
-  company: string;
-  date: string;
-  location: string;
-  description: string;
-  image: string;
-  materials: string[];
-}
-
-export interface Service {
-  slug: string;
-  name: string;
-  icon: string;
-  featured: boolean;
-  shortDescription?: string;
-  fullDescription: string;
-}
-
-export interface Hero {
+// Types
+export interface HeroData {
   backgroundImage: string;
   titleLine1: string;
   titleLine2: string;
+  titleLine3: string;
   subtitle: string;
-  cta1Text: string;
-  cta1Link: string;
-  cta2Text: string;
-  cta2Link: string;
+  ctaPrimary: string;
+  ctaSecondary: string;
 }
 
-export interface ModelShowcaseSlide {
-  slug: string;
+export interface ModelShowcaseData {
   title: string;
-  description: string;
+  subtitle: string;
   beforeImage: string;
   afterImage: string;
-  order: number;
+  beforeLabel: string;
+  afterLabel: string;
+}
+
+export interface Job {
+  id: string;
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  description: string;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  location: string;
+  year: string;
+  value: string;
+  image: string;
+}
+
+export interface Service {
+  id: string;
+  title: string;
+  shortDescription: string;
+  fullDescription: string;
+  features: string[];
+  image: string;
+  icon: string;
 }
 
 export interface Settings {
   companyName: string;
-  logoUrl: string;
-  logoWidth: number;
-  address1: string;
-  address2: string;
-  phone: string;
-  email: string;
-  resumeEmail: string;
-  yearsExperience: string;
-  projectsCompleted: string;
-  aboutText: string;
-  whatWeDoText: string;
+  logo: string;
+  contact: {
+    address: string;
+    phone: string;
+    email: string;
+    hours: string;
+  };
 }
 
-// Parse frontmatter from markdown content
-function parseFrontmatter(content: string): { frontmatter: Record<string, any>; body: string } {
-  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-  if (!match) {
-    return { frontmatter: {}, body: content };
-  }
+// Default data
+const defaultHero: HeroData = {
+  backgroundImage: '/hero-bg.jpg',
+  titleLine1: 'Design.',
+  titleLine2: 'Build.',
+  titleLine3: 'Deliver.',
+  subtitle: 'Innovative engineering solutions for complex construction challenges. We transform visions into reality with precision and expertise.',
+  ctaPrimary: 'Explore Our Services',
+  ctaSecondary: 'View Projects',
+};
 
-  const frontmatterText = match[1];
-  const body = match[2].trim();
+const defaultModelShowcase: ModelShowcaseData = {
+  title: 'From Concept to Reality',
+  subtitle: 'Drag the slider to see how our 3D models translate into finished construction projects.',
+  beforeImage: '/model-before.jpg',
+  afterImage: '/model-after.jpg',
+  beforeLabel: '3D Model',
+  afterLabel: 'Completed Project',
+};
 
-  const frontmatter: Record<string, any> = {};
-  const lines = frontmatterText.split('\n');
-  let currentKey = '';
-  let currentValue: any = '';
-  let inList = false;
-  let listItems: string[] = [];
+const defaultJobs: Job[] = [
+  {
+    id: '1',
+    title: 'Senior Structural Engineer',
+    department: 'Engineering',
+    location: 'Dallas, TX',
+    type: 'Full-time',
+    description: '<p>We are seeking an experienced Structural Engineer to lead complex projects.</p><ul><li>Minimum 8 years experience</li><li>PE license required</li><li>Experience with high-rise buildings preferred</li></ul>',
+  },
+  {
+    id: '2',
+    title: 'MEP Designer',
+    department: 'Design',
+    location: 'Houston, TX',
+    type: 'Full-time',
+    description: '<p>Join our MEP team to design innovative mechanical, electrical, and plumbing systems.</p><ul><li>5+ years MEP design experience</li><li>AutoCAD and Revit proficiency</li><li>LEED accreditation a plus</li></ul>',
+  },
+];
 
-  for (const line of lines) {
-    const listMatch = line.match(/^  - (.+)$/);
-    if (listMatch) {
-      if (!inList) {
-        inList = true;
-        listItems = [];
-      }
-      listItems.push(listMatch[1]);
-      continue;
+const defaultProjects: Project[] = [
+  {
+    id: '1',
+    title: 'Downtown Office Tower',
+    description: 'A 45-story mixed-use development featuring Class A office space and retail.',
+    category: 'Commercial',
+    location: 'Dallas, TX',
+    year: '2023',
+    value: '$120M',
+    image: '/project-1.jpg',
+  },
+  {
+    id: '2',
+    title: 'Industrial Manufacturing Plant',
+    description: 'State-of-the-art manufacturing facility with sustainable design features.',
+    category: 'Industrial',
+    location: 'Houston, TX',
+    year: '2022',
+    value: '$85M',
+    image: '/project-2.jpg',
+  },
+  {
+    id: '3',
+    title: 'Medical Center Expansion',
+    description: '200,000 sq ft hospital expansion including surgical suites and patient towers.',
+    category: 'Healthcare',
+    location: 'Austin, TX',
+    year: '2023',
+    value: '$150M',
+    image: '/project-3.jpg',
+  },
+];
+
+const defaultServices: Service[] = [
+  {
+    id: '1',
+    title: 'Structural Engineering',
+    shortDescription: 'Comprehensive structural analysis and design services.',
+    fullDescription: '<p>Our structural engineering team provides comprehensive analysis and design services for buildings, bridges, and industrial facilities. We use advanced software and methodologies to ensure safety, efficiency, and cost-effectiveness.</p>',
+    features: [
+      'Structural analysis and design',
+      'Seismic evaluation',
+      'Forensic engineering',
+      'Peer review services',
+      'Construction support',
+    ],
+    image: '/service-structural.jpg',
+    icon: '🏗️',
+  },
+  {
+    id: '2',
+    title: 'MEP Design',
+    shortDescription: 'Mechanical, electrical, and plumbing system design.',
+    fullDescription: '<p>We design efficient MEP systems that meet your building\'s needs while minimizing energy consumption and operational costs. Our designs prioritize sustainability and long-term performance.</p>',
+    features: [
+      'HVAC system design',
+      'Electrical systems',
+      'Plumbing design',
+      'Fire protection',
+      'Energy modeling',
+    ],
+    image: '/service-mep.jpg',
+    icon: '⚡',
+  },
+  {
+    id: '3',
+    title: 'Construction Management',
+    shortDescription: 'End-to-end project oversight and management.',
+    fullDescription: '<p>Our construction management team ensures your project is delivered on time, within budget, and to the highest quality standards. We coordinate all aspects of the construction process.</p>',
+    features: [
+      'Project planning',
+      'Schedule management',
+      'Cost control',
+      'Quality assurance',
+      'Safety management',
+    ],
+    image: '/service-construction.jpg',
+    icon: '🏢',
+  },
+  {
+    id: '4',
+    title: '3D Modeling & BIM',
+    shortDescription: 'Advanced 3D visualization and building information modeling.',
+    fullDescription: '<p>We create detailed 3D models and BIM representations that help visualize projects before construction begins, identify potential issues, and improve collaboration.</p>',
+    features: [
+      '3D architectural modeling',
+      'BIM coordination',
+      'Clash detection',
+      'Virtual reality walkthroughs',
+      'As-built documentation',
+    ],
+    image: '/service-3d.jpg',
+    icon: '🎨',
+  },
+  {
+    id: '5',
+    title: 'Project Consulting',
+    shortDescription: 'Expert guidance throughout your project lifecycle.',
+    fullDescription: '<p>Our consulting services provide expert guidance at every stage of your project, from initial feasibility studies through project completion and beyond.</p>',
+    features: [
+      'Feasibility studies',
+      'Value engineering',
+      'Risk assessment',
+      'Permit assistance',
+      'Owner representation',
+    ],
+    image: '/service-consulting.jpg',
+    icon: '📊',
+  },
+];
+
+const defaultSettings: Settings = {
+  companyName: 'TKE Engineering',
+  logo: '/tke-logo.png',
+  contact: {
+    address: '123 Engineering Way, Industrial District, TX 75001',
+    phone: '(555) 123-4567',
+    email: 'info@tke-engineering.com',
+    hours: 'Mon - Fri: 8:00 AM - 5:00 PM',
+  },
+};
+
+// Helper function to load content from CMS
+async function loadContent<T>(filePath: string, defaultData: T): Promise<T> {
+  try {
+    const response = await fetch(filePath);
+    if (!response.ok) {
+      return defaultData;
     }
-
-    if (inList && currentKey) {
-      frontmatter[currentKey] = listItems;
-      inList = false;
-      listItems = [];
+    const content = await response.text();
+    
+    const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+    if (frontmatterMatch) {
+      const frontmatter = frontmatterMatch[1];
+      const data: Record<string, unknown> = {};
+      
+      frontmatter.split('\n').forEach((line) => {
+        const match = line.match(/^([\w]+):\s*(.+)$/);
+        if (match) {
+          const [, key, value] = match;
+          try {
+            data[key] = JSON.parse(value);
+          } catch {
+            data[key] = value.replace(/^["']|["']$/g, '');
+          }
+        }
+      });
+      
+      return { ...defaultData, ...data } as T;
     }
-
-    const keyValueMatch = line.match(/^([^:]+):\s*(.+)?$/);
-    if (keyValueMatch) {
-      currentKey = keyValueMatch[1].trim();
-      currentValue = keyValueMatch[2]?.trim() || '';
-
-      // Remove quotes if present
-      if (currentValue.startsWith('"') && currentValue.endsWith('"')) {
-        currentValue = currentValue.slice(1, -1);
-      }
-
-      // Parse booleans
-      if (currentValue === 'true') currentValue = true;
-      if (currentValue === 'false') currentValue = false;
-
-      // Parse numbers
-      if (!isNaN(Number(currentValue)) && currentValue !== '') {
-        currentValue = Number(currentValue);
-      }
-
-      // Parse multiline strings (starts with | or >)
-      if (currentValue === '|' || currentValue === '>') {
-        currentValue = '';
-      }
-
-      frontmatter[currentKey] = currentValue;
-    } else if (currentKey && line.startsWith('  ')) {
-      // Continuation of multiline value
-      frontmatter[currentKey] += (frontmatter[currentKey] ? '\n' : '') + line.trim();
-    }
+    
+    return defaultData;
+  } catch {
+    return defaultData;
   }
-
-  if (inList && currentKey) {
-    frontmatter[currentKey] = listItems;
-  }
-
-  return { frontmatter, body };
 }
 
 export function useHero() {
-  const [hero, setHero] = useState<Hero | null>(null);
+  const [hero, setHero] = useState<HeroData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadHero = async () => {
-      try {
-        const response = await fetch('/content/hero/hero.md');
-        const content = await response.text();
-        const { frontmatter } = parseFrontmatter(content);
-        setHero({
-          backgroundImage: frontmatter.backgroundImage || '',
-          titleLine1: frontmatter.titleLine1 || 'TKE Engineering',
-          titleLine2: frontmatter.titleLine2 || '& Design',
-          subtitle: frontmatter.subtitle || '',
-          cta1Text: frontmatter.cta1Text || 'Explore Our Services',
-          cta1Link: frontmatter.cta1Link || '#services',
-          cta2Text: frontmatter.cta2Text || 'Get In Touch',
-          cta2Link: frontmatter.cta2Link || '#contact',
-        });
-      } catch (error) {
-        console.error('Error loading hero:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadHero();
+    loadContent<HeroData>('/content/hero.md', defaultHero).then((data) => {
+      setHero(data);
+      setLoading(false);
+    });
   }, []);
 
   return { hero, loading };
 }
 
 export function useModelShowcase() {
-  const [slides, setSlides] = useState<ModelShowcaseSlide[]>([]);
+  const [showcase, setShowcase] = useState<ModelShowcaseData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadSlides = async () => {
-      try {
-        const slideFiles = [
-          '/content/model-showcase/slide-1.md',
-          '/content/model-showcase/slide-2.md',
-          '/content/model-showcase/slide-3.md',
-          '/content/model-showcase/slide-4.md',
-        ];
-
-        const loadedSlides: ModelShowcaseSlide[] = [];
-        for (const file of slideFiles) {
-          const response = await fetch(file);
-          const content = await response.text();
-          const { frontmatter } = parseFrontmatter(content);
-          const slug = file.split('/').pop()?.replace('.md', '') || '';
-          loadedSlides.push({
-            slug,
-            title: frontmatter.title || '',
-            description: frontmatter.description || '',
-            beforeImage: frontmatter.beforeImage || frontmatter.image || '',
-            afterImage: frontmatter.afterImage || frontmatter.image || '',
-            order: frontmatter.order || 999,
-          });
-        }
-
-        setSlides(loadedSlides.sort((a, b) => a.order - b.order));
-      } catch (error) {
-        console.error('Error loading model showcase:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadSlides();
+    loadContent<ModelShowcaseData>('/content/model-showcase.md', defaultModelShowcase).then((data) => {
+      setShowcase(data);
+      setLoading(false);
+    });
   }, []);
 
-  return { slides, loading };
+  return { showcase, loading };
 }
 
 export function useJobs() {
@@ -219,38 +290,19 @@ export function useJobs() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadJobs = async () => {
-      try {
-        const jobFiles = [
-          '/content/jobs/electrical-design-engineer.md',
-        ];
-
-        const loadedJobs: Job[] = [];
-        for (const file of jobFiles) {
-          const response = await fetch(file);
-          const content = await response.text();
-          const { frontmatter } = parseFrontmatter(content);
-          const slug = file.split('/').pop()?.replace('.md', '') || '';
-          loadedJobs.push({
-            slug,
-            title: frontmatter.title || '',
-            location: frontmatter.location || '',
-            department: frontmatter.department || '',
-            active: frontmatter.active ?? true,
-            description: frontmatter.description || '',
-            requirements: frontmatter.requirements || [],
-          });
-        }
-
-        setJobs(loadedJobs.filter(job => job.active));
-      } catch (error) {
-        console.error('Error loading jobs:', error);
-      } finally {
+    fetch('/content/jobs/')
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to load jobs');
+        return res.json();
+      })
+      .then((data) => {
+        setJobs(data.length > 0 ? data : defaultJobs);
         setLoading(false);
-      }
-    };
-
-    loadJobs();
+      })
+      .catch(() => {
+        setJobs(defaultJobs);
+        setLoading(false);
+      });
   }, []);
 
   return { jobs, loading };
@@ -261,42 +313,19 @@ export function useProjects() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadProjects = async () => {
-      try {
-        const projectFiles = [
-          '/content/projects/wyckoff.md',
-          '/content/projects/jefferson-island.md',
-          '/content/projects/egan-hub.md',
-          '/content/projects/egan-hub-moss-bluff.md',
-        ];
-
-        const loadedProjects: Project[] = [];
-        for (const file of projectFiles) {
-          const response = await fetch(file);
-          const content = await response.text();
-          const { frontmatter } = parseFrontmatter(content);
-          const slug = file.split('/').pop()?.replace('.md', '') || '';
-          loadedProjects.push({
-            slug,
-            name: frontmatter.name || '',
-            company: frontmatter.company || '',
-            date: frontmatter.date || '',
-            location: frontmatter.location || '',
-            description: frontmatter.description || '',
-            image: frontmatter.image || '',
-            materials: frontmatter.materials || [],
-          });
-        }
-
-        setProjects(loadedProjects);
-      } catch (error) {
-        console.error('Error loading projects:', error);
-      } finally {
+    fetch('/content/projects/')
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to load projects');
+        return res.json();
+      })
+      .then((data) => {
+        setProjects(data.length > 0 ? data : defaultProjects);
         setLoading(false);
-      }
-    };
-
-    loadProjects();
+      })
+      .catch(() => {
+        setProjects(defaultProjects);
+        setLoading(false);
+      });
   }, []);
 
   return { projects, loading };
@@ -307,47 +336,19 @@ export function useServices() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadServices = async () => {
-      try {
-        const serviceFiles = [
-          '/content/services/conceptual-design.md',
-          '/content/services/ferc-support.md',
-          '/content/services/leaching.md',
-          '/content/services/dehydration.md',
-          '/content/services/compression.md',
-          '/content/services/injection.md',
-          '/content/services/withdrawal.md',
-          '/content/services/btex-recovery.md',
-          '/content/services/metering-regulating.md',
-          '/content/services/interconnect.md',
-          '/content/services/retrofits.md',
-        ];
-
-        const loadedServices: Service[] = [];
-        for (const file of serviceFiles) {
-          const response = await fetch(file);
-          const content = await response.text();
-          const { frontmatter, body } = parseFrontmatter(content);
-          const slug = file.split('/').pop()?.replace('.md', '') || '';
-          loadedServices.push({
-            slug,
-            name: frontmatter.name || '',
-            icon: frontmatter.icon || 'Settings',
-            featured: frontmatter.featured || false,
-            shortDescription: frontmatter.shortDescription || '',
-            fullDescription: frontmatter.fullDescription || body || '',
-          });
-        }
-
-        setServices(loadedServices);
-      } catch (error) {
-        console.error('Error loading services:', error);
-      } finally {
+    fetch('/content/services/')
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to load services');
+        return res.json();
+      })
+      .then((data) => {
+        setServices(data.length > 0 ? data : defaultServices);
         setLoading(false);
-      }
-    };
-
-    loadServices();
+      })
+      .catch(() => {
+        setServices(defaultServices);
+        setLoading(false);
+      });
   }, []);
 
   return { services, loading };
@@ -358,32 +359,10 @@ export function useSettings() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadSettings = async () => {
-      try {
-        const response = await fetch('/content/settings.json');
-        const data = await response.json();
-        setSettings({
-          companyName: data.companyName || 'TKE Engineering & Design, Inc.',
-          logoUrl: data.logoUrl || '',
-          logoWidth: data.logoWidth || 50,
-          address1: data.address1 || '',
-          address2: data.address2 || '',
-          phone: data.phone || '',
-          email: data.email || '',
-          resumeEmail: data.resumeEmail || '',
-          yearsExperience: data.yearsExperience || '30+',
-          projectsCompleted: data.projectsCompleted || '500+',
-          aboutText: data.aboutText || '',
-          whatWeDoText: data.whatWeDoText || '',
-        });
-      } catch (error) {
-        console.error('Error loading settings:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadSettings();
+    loadContent<Settings>('/content/settings.md', defaultSettings).then((data) => {
+      setSettings(data);
+      setLoading(false);
+    });
   }, []);
 
   return { settings, loading };
