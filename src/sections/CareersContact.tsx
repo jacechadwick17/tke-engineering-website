@@ -189,14 +189,14 @@ export default function CareersContact() {
 
               {/* Departments */}
               <div className="mb-6">
-                <h4 className="text-sm font-semibold text-[#2d8a7a] mb-3 uppercase tracking-wider">
+                <h4 className="text-sm font-semibold text-[#009966] mb-3 uppercase tracking-wider">
                   Departments
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {departments.map((dept) => (
                     <span
                       key={dept}
-                      className="px-3 py-1 bg-[#2d8a7a]/10 text-[#2d8a7a] text-xs rounded-full"
+                      className="px-3 py-1 bg-[#009966]/10 text-[#009966] text-xs rounded-full"
                     >
                       {dept}
                     </span>
@@ -206,7 +206,7 @@ export default function CareersContact() {
 
               {/* Benefits */}
               <div>
-                <h4 className="text-sm font-semibold text-[#2d8a7a] mb-3 uppercase tracking-wider">
+                <h4 className="text-sm font-semibold text-[#009966] mb-3 uppercase tracking-wider">
                   Benefits Include
                 </h4>
                 <div className="grid grid-cols-2 gap-3">
@@ -217,7 +217,7 @@ export default function CareersContact() {
                         key={benefit.name}
                         className="flex items-center gap-2 text-[#888888] text-sm"
                       >
-                        <Icon size={14} className="text-[#2d8a7a]" />
+                        <Icon size={14} className="text-[#009966]" />
                         {benefit.name}
                       </div>
                     );
@@ -246,14 +246,14 @@ export default function CareersContact() {
                     <div className="flex items-start gap-3 mb-4">
                       <Briefcase
                         size={20}
-                        className="text-[#2d8a7a] mt-1 flex-shrink-0"
+                        className="text-[#009966] mt-1 flex-shrink-0"
                       />
                       <div>
                         <h4 className="text-lg font-bold text-white">
                           {job.title}
                         </h4>
                         <p className="text-sm text-[#888888]">{job.location}</p>
-                        <span className="text-xs text-[#2d8a7a] bg-[#2d8a7a]/10 px-2 py-0.5 rounded mt-1 inline-block">
+                        <span className="text-xs text-[#009966] bg-[#009966]/10 px-2 py-0.5 rounded mt-1 inline-block">
                           {job.department}
                         </span>
                       </div>
@@ -266,13 +266,13 @@ export default function CareersContact() {
                     <div className="flex gap-3">
                       <button
                         onClick={() => setSelectedJob(job.slug)}
-                        className="text-sm text-[#2d8a7a] hover:text-[#3dbba5] transition-colors font-medium"
+                        className="text-sm text-[#009966] hover:text-[#00cc88] transition-colors font-medium"
                       >
                         View Details
                       </button>
                       <a
                         href={`mailto:${settings?.resumeEmail}`}
-                        className="inline-flex items-center gap-2 text-[#2d8a7a] hover:text-[#3dbba5] transition-colors duration-300 text-sm font-medium"
+                        className="inline-flex items-center gap-2 text-[#009966] hover:text-[#00cc88] transition-colors duration-300 text-sm font-medium"
                       >
                         <Mail size={14} />
                         Apply Now
@@ -297,8 +297,8 @@ export default function CareersContact() {
             {/* Contact Info */}
             <div className="bg-[#1a1a1a] rounded-xl p-6 border border-white/5 space-y-4">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#2d8a7a]/10 rounded-lg flex items-center justify-center">
-                  <MapPin size={18} className="text-[#2d8a7a]" />
+                <div className="w-10 h-10 bg-[#009966]/10 rounded-lg flex items-center justify-center">
+                  <MapPin size={18} className="text-[#009966]" />
                 </div>
                 <div>
                   <p className="text-sm text-[#888888]">Address</p>
@@ -311,14 +311,14 @@ export default function CareersContact() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#2d8a7a]/10 rounded-lg flex items-center justify-center">
-                  <Mail size={18} className="text-[#2d8a7a]" />
+                <div className="w-10 h-10 bg-[#009966]/10 rounded-lg flex items-center justify-center">
+                  <Mail size={18} className="text-[#009966]" />
                 </div>
                 <div>
                   <p className="text-sm text-[#888888]">Email</p>
                   <a
                     href={`mailto:${settings?.email}`}
-                    className="text-white text-sm hover:text-[#2d8a7a] transition-colors"
+                    className="text-white text-sm hover:text-[#009966] transition-colors"
                   >
                     {settings?.email}
                   </a>
@@ -326,14 +326,14 @@ export default function CareersContact() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#2d8a7a]/10 rounded-lg flex items-center justify-center">
-                  <Phone size={18} className="text-[#2d8a7a]" />
+                <div className="w-10 h-10 bg-[#009966]/10 rounded-lg flex items-center justify-center">
+                  <Phone size={18} className="text-[#009966]" />
                 </div>
                 <div>
                   <p className="text-sm text-[#888888]">Phone</p>
                   <a
                     href={`tel:${settings?.phone?.replace(/\./g, '')}`}
-                    className="text-white text-sm hover:text-[#2d8a7a] transition-colors"
+                    className="text-white text-sm hover:text-[#009966] transition-colors"
                   >
                     {settings?.phone}
                   </a>
@@ -348,8 +348,8 @@ export default function CareersContact() {
               </h3>
 
               {submitMessage && (
-                <div className="mb-4 p-4 bg-[#2d8a7a]/10 border border-[#2d8a7a]/30 rounded-lg">
-                  <p className="text-[#2d8a7a] text-sm">{submitMessage}</p>
+                <div className="mb-4 p-4 bg-[#009966]/10 border border-[#009966]/30 rounded-lg">
+                  <p className="text-[#009966] text-sm">{submitMessage}</p>
                 </div>
               )}
 
@@ -365,7 +365,7 @@ export default function CareersContact() {
                       value={formData.firstName}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#2d8a7a] transition-colors"
+                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#009966] transition-colors"
                       placeholder="John"
                     />
                   </div>
@@ -379,7 +379,7 @@ export default function CareersContact() {
                       value={formData.lastName}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#2d8a7a] transition-colors"
+                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#009966] transition-colors"
                       placeholder="Doe"
                     />
                   </div>
@@ -395,7 +395,7 @@ export default function CareersContact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#2d8a7a] transition-colors"
+                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#009966] transition-colors"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -409,7 +409,7 @@ export default function CareersContact() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#2d8a7a] transition-colors"
+                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#009966] transition-colors"
                     placeholder="(555) 123-4567"
                   />
                 </div>
@@ -424,7 +424,7 @@ export default function CareersContact() {
                     onChange={handleChange}
                     required
                     rows={4}
-                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#2d8a7a] transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#009966] transition-colors resize-none"
                     placeholder="How can we help you?"
                   />
                 </div>
@@ -481,7 +481,7 @@ export default function CareersContact() {
             <div className="mt-4 space-y-4">
               <div className="flex items-center gap-4 text-sm text-[#888888]">
                 <span>{selectedJobData.location}</span>
-                <span className="text-[#2d8a7a] bg-[#2d8a7a]/10 px-2 py-0.5 rounded">
+                <span className="text-[#009966] bg-[#009966]/10 px-2 py-0.5 rounded">
                   {selectedJobData.department}
                 </span>
               </div>
@@ -501,7 +501,7 @@ export default function CareersContact() {
                       key={i}
                       className="flex items-center gap-2 text-[#888888] text-sm"
                     >
-                      <CheckCircle size={14} className="text-[#2d8a7a] flex-shrink-0" />
+                      <CheckCircle size={14} className="text-[#009966] flex-shrink-0" />
                       {req}
                     </li>
                   ))}
