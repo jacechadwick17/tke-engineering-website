@@ -6,7 +6,7 @@ import { useModelShowcase } from '../hooks/useContent';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function ModelShowcase() {
+export default function ModelShowcase() {
   const { showcase, loading } = useModelShowcase();
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
