@@ -92,7 +92,7 @@ eexport default function Projects() {
     );
   }
 
-  const currentProject = projects[currentIndex];
+
 
   return (
     <section id="projects" ref={sectionRef} className="py-24 md:py-32 bg-[#f8f9fa] overflow-hidden">
