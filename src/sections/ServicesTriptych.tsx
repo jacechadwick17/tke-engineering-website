@@ -29,7 +29,7 @@ const services = [
   },
 ];
 
-export function ServicesTriptych() {
+export default function ServicesTriptych() {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
