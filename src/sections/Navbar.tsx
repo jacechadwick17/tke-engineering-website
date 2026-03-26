@@ -81,7 +81,7 @@ export default function Navbar() {
       >
         TKE
       </text>
-      <rect x="10" y="75" width="80" height="2" fill="#2d8a7a" />
+      <rect x="10" y="75" width="80" height="2" fill="#009966" />
     </svg>
   );
 
@@ -134,7 +134,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
-                  className="text-sm text-[#e0e0e0] hover:text-[#2d8a7a] transition-colors duration-300 link-underline font-medium tracking-wide"
+                  className="text-sm text-[#e0e0e0] hover:text-[#009966] transition-colors duration-300 link-underline font-medium tracking-wide"
                 >
                   {link.name.toUpperCase()}
                 </a>
@@ -165,7 +165,7 @@ export default function Navbar() {
               key={link.name}
               href={link.href}
               onClick={(e) => handleLinkClick(e, link.href)}
-              className="text-2xl text-white hover:text-[#2d8a7a] transition-colors duration-300 font-semibold tracking-wider"
+              className="text-2xl text-white hover:text-[#009966] transition-colors duration-300 font-semibold tracking-wider"
               style={{
                 animationDelay: `${index * 0.1}s`,
               }}
