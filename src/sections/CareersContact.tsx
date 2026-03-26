@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function CareersContact() {
   const { jobs, loading: jobsLoading } = useJobs();
-  const { settings, loading: settingsLoading } = useSettings();
+  const { settings } = useSettings();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
