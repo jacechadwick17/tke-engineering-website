@@ -12,7 +12,7 @@ const services = [
     description:
       'TKE provides its clients with a full project management package including quotes, scheduling, budget allocation, and overseeing the design phase and site development.',
     icon: ClipboardList,
-    color: '#2d8a7a',
+    color: '#009966',
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const services = [
     description:
       'Our multidisciplinary staff has years of accumulated experience in fields such as mechanical, electrical, and civil engineering. We maintain a full staff of design and drafting personnel utilizing the most advanced computer aided technology.',
     icon: Cog,
-    color: '#3dbba5',
+    color: '#00cc88',
   },
   {
     id: 3,
@@ -28,7 +28,7 @@ const services = [
     description:
       'TKE offers on-site scheduling, material tracking, field engineering, and daily reporting to streamline the installation process and address any issues on the spot.',
     icon: HardHat,
-    color: '#2d8a7a',
+    color: '#009966',
   },
 ];
 
@@ -166,7 +166,7 @@ export default function ServicesTriptych() {
                           .querySelector('#services')
                           ?.scrollIntoView({ behavior: 'smooth' });
                       }}
-                      className="inline-flex items-center gap-2 text-[#2d8a7a] hover:text-[#3dbba5] transition-colors duration-300 font-medium"
+                      className="inline-flex items-center gap-2 text-[#009966] hover:text-[#00cc88] transition-colors duration-300 font-medium"
                     >
                       Read More
                       <ArrowRight size={16} />
