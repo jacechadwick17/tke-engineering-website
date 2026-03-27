@@ -8,7 +8,7 @@ description: TKE Engineering designed the installation of a new cavern leaching
   1,200 mmscfd Low Nitrogen header system and filter separators. New power and
   control building, 1500 kW standby generator, utility tanks, and incoming
   power.
-image: /uploads/tke-logo-12.26.02.bmp
+image: /uploads/2026.03.24-wlsn-oal-piping.bmp
 materials:
   - Gas Compression
   - Dehydration Equipment
