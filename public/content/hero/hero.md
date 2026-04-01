@@ -1,6 +1,6 @@
 ---
 backgroundVideo: https://youtu.be/EwVzV_OmoVw
-backgroundImage: ""
+backgroundImage: /uploads/327-drone.jpg
 titleLine1: TKE Engineering
 titleLine2: " "
 subtitle: Precision engineering solutions for the gas and pipeline industry.
