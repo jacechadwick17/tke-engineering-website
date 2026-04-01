@@ -9,9 +9,7 @@ description: >
   platform to combat against storm surges. This station is comprised of (1)
   Solar Titan 130 with the capability of compressing 450 mmscfd.
 image: /uploads/348-model.png
-images:
-  - /uploads/348-model.png
-  - /uploads/dji_02289.jpg
+images: []
 materials:
   - Solar Titan 130
   - Elevated Platform
