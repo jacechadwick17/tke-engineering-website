@@ -97,16 +97,35 @@ export default function Hero() {
       ref={sectionRef}
       className="relative h-screen w-full overflow-hidden"
     >
-      {/* Background Image with Parallax */}
+      {/* Background Video with Parallax (fallback to image) */}
       <div
         ref={imageRef}
         className="absolute inset-0 w-full h-[120%] -top-[10%]"
       >
-        <img
-          src={hero.backgroundImage}
-          alt="Hero background"
-          className="w-full h-full object-cover"
-        />
+        {hero.backgroundVideo ? (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+            poster={hero.backgroundImage}
+          >
+            <source src={hero.backgroundVideo} type="video/mp4" />
+            {/* Fallback to image if video fails */}
+            <img
+              src={hero.backgroundImage}
+              alt="Hero background"
+              className="w-full h-full object-cover"
+            />
+          </video>
+        ) : (
+          <img
+            src={hero.backgroundImage}
+            alt="Hero background"
+            className="w-full h-full object-cover"
+          />
+        )}
       </div>
 
       {/* Dark Overlay */}
