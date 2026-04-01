@@ -17,7 +17,7 @@ export interface Project {
   date: string;
   location: string;
   description: string;
-  image: string;
+  images: string[];
   materials: string[];
 }
 
@@ -283,7 +283,7 @@ export function useProjects() {
             date: frontmatter.date || '',
             location: frontmatter.location || '',
             description: frontmatter.description || '',
-            image: frontmatter.image || '',
+            images: frontmatter.images || [],
             materials: frontmatter.materials || [],
           });
         }
