@@ -16,7 +16,8 @@ collections:
     editor:
       preview: false
     fields:
-      - { label: "Background Image", name: "backgroundImage", widget: "image", hint: "Main hero background photo" }
+      - { label: "Background Video", name: "backgroundVideo", widget: "file", required: false, hint: "Upload MP4 video for background (autoplay, loop, muted). Leave empty to use fallback image." }
+      - { label: "Background Fallback Image", name: "backgroundImage", widget: "image", required: false, hint: "Fallback image if no video, or for mobile devices" }
       - { label: "Title Line 1", name: "titleLine1", widget: "string", default: "TKE Engineering", hint: "First line of title" }
       - { label: "Title Line 2", name: "titleLine2", widget: "string", default: "& Design", hint: "Second line of title - leave blank for none" }
       - { label: "Subtitle", name: "subtitle", widget: "text" }
