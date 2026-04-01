@@ -70,7 +70,11 @@ collections:
       - { label: "Date", name: "date", widget: "string", hint: "e.g., Completed 02/2009" }
       - { label: "Location", name: "location", widget: "string" }
       - { label: "Description", name: "description", widget: "text" }
-      - { label: "Image", name: "image", widget: "image" }
+      - label: "Images"
+        name: "images"
+        widget: "list"
+        field: { name: "image", label: "Image", widget: "image" }
+        hint: "Upload multiple images for this project. First image will be the main display."
       - label: "Materials & Services"
         name: "materials"
         widget: "list"
