@@ -8,12 +8,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Projects() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const { projects, loading } = useProjects();
 
   const activeProject = projects[activeIndex] || null;
+
+  // Reset image index when project changes
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [activeIndex]);
 
   useEffect(() => {
     if (loading || projects.length === 0) return;
@@ -45,6 +51,16 @@ export default function Projects() {
 
   const prevProject = () => {
     setActiveIndex((prev) => (prev - 1 + projects.length) % projects.length);
+  };
+
+  const nextImage = () => {
+    if (!activeProject) return;
+    setActiveImageIndex((prev) => (prev + 1) % activeProject.images.length);
+  };
+
+  const prevImage = () => {
+    if (!activeProject) return;
+    setActiveImageIndex((prev) => (prev - 1 + activeProject.images.length) % activeProject.images.length);
   };
 
   if (loading) {
@@ -87,23 +103,61 @@ export default function Projects() {
         <div ref={carouselRef} className="relative">
           {/* Main Project Display */}
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Image Side */}
+            {/* Image Side with Gallery */}
             <div className="relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden group">
-              {projects.map((project, index) => (
+              {projects.map((project, projectIndex) => (
                 <div
                   key={project.slug}
                   className={`absolute inset-0 transition-all duration-700 ${
-                    index === activeIndex
+                    projectIndex === activeIndex
                       ? 'opacity-100 scale-100'
-                      : 'opacity-0 scale-105'
+                      : 'opacity-0 scale-105 pointer-events-none'
                   }`}
                 >
+                  {/* Main Image */}
                   <img
-                    src={project.image}
+                    src={project.images[activeImageIndex] || project.images[0]}
                     alt={project.name}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f]/80 via-transparent to-transparent" />
+
+                  {/* Image Gallery Navigation (only show if multiple images) */}
+                  {project.images.length > 1 && projectIndex === activeIndex && (
+                    <>
+                      {/* Image Arrows */}
+                      <button
+                        onClick={prevImage}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm hover:bg-black/70 flex items-center justify-center transition-colors duration-300"
+                        aria-label="Previous image"
+                      >
+                        <ChevronLeft size={20} className="text-white" />
+                      </button>
+                      <button
+                        onClick={nextImage}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm hover:bg-black/70 flex items-center justify-center transition-colors duration-300"
+                        aria-label="Next image"
+                      >
+                        <ChevronRight size={20} className="text-white" />
+                      </button>
+
+                      {/* Image Dots */}
+                      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-2">
+                        {project.images.map((_, imgIndex) => (
+                          <button
+                            key={imgIndex}
+                            onClick={() => setActiveImageIndex(imgIndex)}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                              imgIndex === activeImageIndex
+                                ? 'bg-[#009966] w-6'
+                                : 'bg-white/50 hover:bg-white/70'
+                            }`}
+                            aria-label={`View image ${imgIndex + 1}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
               ))}
 
@@ -222,7 +276,7 @@ export default function Projects() {
                 }`}
               >
                 <img
-                  src={project.image}
+                  src={project.images[0]}
                   alt={project.name}
                   className="w-full h-full object-cover"
                 />
