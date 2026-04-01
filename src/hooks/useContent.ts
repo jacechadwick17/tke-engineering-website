@@ -31,6 +31,7 @@ export interface Service {
 }
 
 export interface Hero {
+  backgroundVideo?: string;
   backgroundImage: string;
   titleLine1: string;
   titleLine2: string;
@@ -148,6 +149,7 @@ export function useHero() {
         const content = await response.text();
         const { frontmatter } = parseFrontmatter(content);
         setHero({
+          backgroundVideo: frontmatter.backgroundVideo || '',
           backgroundImage: frontmatter.backgroundImage || '',
           titleLine1: frontmatter.titleLine1 || 'TKE Engineering',
           titleLine2: frontmatter.titleLine2 || '& Design',
