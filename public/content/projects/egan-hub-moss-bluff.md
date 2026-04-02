@@ -11,7 +11,7 @@ description: >
 image: /uploads/348-model.png
 images:
   - /uploads/348-model.png
-  - /uploads/dji_02289.jpg
+  - /uploads/st348-oal-master-2020.10.08-.bmp
 materials:
   - Solar Titan 130
   - Elevated Platform
