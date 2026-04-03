@@ -265,29 +265,54 @@ export function useProjects() {
   useEffect(() => {
     const loadProjects = async () => {
       try {
-        const projectFiles = [
-          '/content/projects/wyckoff.md',
-          '/content/projects/jefferson-island.md',
-          '/content/projects/egan-hub.md',
-          '/content/projects/egan-hub-moss-bluff.md',
-        ];
+        // Load the manifest file that lists all projects
+        const manifestResponse = await fetch('/content/projects-manifest.md');
+        let projectSlugs: string[] = [];
+        
+        if (manifestResponse.ok) {
+          const manifestContent = await manifestResponse.text();
+          const { frontmatter } = parseFrontmatter(manifestContent);
+          projectSlugs = frontmatter.projects || [];
+        }
+
+        // If no manifest, try to load a default list
+        if (projectSlugs.length === 0) {
+          projectSlugs = ['ngpl-station-348', 'custody-transfer-ms'];
+        }
 
         const loadedProjects: Project[] = [];
-        for (const file of projectFiles) {
-          const response = await fetch(file);
-          const content = await response.text();
-          const { frontmatter } = parseFrontmatter(content);
-          const slug = file.split('/').pop()?.replace('.md', '') || '';
-          loadedProjects.push({
-            slug,
-            name: frontmatter.name || '',
-            company: frontmatter.company || '',
-            date: frontmatter.date || '',
-            location: frontmatter.location || '',
-            description: frontmatter.description || '',
-            images: frontmatter.images || [],
-            materials: frontmatter.materials || [],
-          });
+        
+        for (const slug of projectSlugs) {
+          try {
+            const response = await fetch(`/content/projects/${slug}.md`);
+            if (!response.ok) continue;
+            
+            const content = await response.text();
+            const { frontmatter } = parseFrontmatter(content);
+            
+            // Support both old 'image' and new 'images' format
+            let images: string[] = [];
+            if (frontmatter.images && Array.isArray(frontmatter.images)) {
+              images = frontmatter.images;
+            } else if (frontmatter.image) {
+              images = [frontmatter.image];
+            }
+            
+            if (images.length > 0 || frontmatter.name) {
+              loadedProjects.push({
+                slug,
+                name: frontmatter.name || '',
+                company: frontmatter.company || '',
+                date: frontmatter.date || '',
+                location: frontmatter.location || '',
+                description: frontmatter.description || '',
+                images: images,
+                materials: frontmatter.materials || [],
+              });
+            }
+          } catch (err) {
+            console.warn(`Failed to load project: ${slug}`, err);
+          }
         }
 
         setProjects(loadedProjects);
