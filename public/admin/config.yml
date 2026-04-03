@@ -115,8 +115,7 @@ collections:
           - { label: "About Text", name: "aboutText", widget: "markdown" }
           - { label: "What We Do Text", name: "whatWeDoText", widget: "markdown" }
 
-          
-       - name: "projectsManifest"
+  - name: "projectsManifest"
     label: "Projects List (Auto-managed)"
     folder: "public/content"
     create: false
