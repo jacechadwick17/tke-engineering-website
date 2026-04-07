@@ -1,7 +1,7 @@
 ---
 title: Engineering Blueprint
-description: Detailed technical specifications
-beforeImage: https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80
-afterImage: https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80
+description: 3D Model to Overall Piping Plan
+beforeImage: /uploads/msx-602-model.png
+afterImage: /uploads/msx-602-layout.png
 order: 2
 ---
