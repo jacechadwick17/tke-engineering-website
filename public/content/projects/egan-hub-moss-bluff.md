@@ -11,6 +11,7 @@ description: >
 image: /uploads/348-model.png
 images:
   - /uploads/348-model.png
+  - /uploads/st2-master-model-2019.12.12-.bmp
 materials:
   - Solar Titan 130
   - Elevated Platform
