@@ -188,18 +188,28 @@ export function useModelShowcase() {
 
         const loadedSlides: ModelShowcaseSlide[] = [];
         for (const file of slideFiles) {
-          const response = await fetch(file);
-          const content = await response.text();
-          const { frontmatter } = parseFrontmatter(content);
-          const slug = file.split('/').pop()?.replace('.md', '') || '';
-          loadedSlides.push({
-            slug,
-            title: frontmatter.title || '',
-            description: frontmatter.description || '',
-            beforeImage: frontmatter.beforeImage || frontmatter.image || '',
-            afterImage: frontmatter.afterImage || frontmatter.image || '',
-            order: frontmatter.order || 999,
-          });
+          try {
+            const response = await fetch(file);
+            if (!response.ok) continue; // Skip if file doesn't exist
+            
+            const content = await response.text();
+            const { frontmatter } = parseFrontmatter(content);
+            const slug = file.split('/').pop()?.replace('.md', '') || '';
+            
+            // Only add if it has images
+            if (frontmatter.beforeImage || frontmatter.afterImage || frontmatter.image) {
+              loadedSlides.push({
+                slug,
+                title: frontmatter.title || '',
+                description: frontmatter.description || '',
+                beforeImage: frontmatter.beforeImage || frontmatter.image || '',
+                afterImage: frontmatter.afterImage || frontmatter.image || '',
+                order: frontmatter.order || 999,
+              });
+            }
+          } catch {
+            // Skip files that don't exist or fail to load
+          }
         }
 
         setSlides(loadedSlides.sort((a, b) => a.order - b.order));
@@ -215,7 +225,6 @@ export function useModelShowcase() {
 
   return { slides, loading };
 }
-
 export function useJobs() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
