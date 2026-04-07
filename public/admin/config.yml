@@ -128,3 +128,17 @@ collections:
         widget: "list"
         field: { name: "slug", label: "Project Slug", widget: "string" }
         hint: "List of all projects in display order. Add project slugs here (match the filename without .md)"
+
+  - name: "modelShowcaseManifest"
+    label: "3D Slides List (Auto-managed)"
+    folder: "public/content"
+    create: false
+    slug: "model-showcase-manifest"
+    editor:
+      preview: false
+    fields:
+      - label: "Slide Order"
+        name: "slides"
+        widget: "list"
+        field: { name: "slug", label: "Slide Slug", widget: "string" }
+        hint: "List of all 3D showcase slides in display order. Add slide slugs here (match the filename without .md)"
