@@ -1,7 +1,7 @@
 ---
-title: Design Phase
-description: Engineering and planning
-beforeImage: https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80
-afterImage: https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80
+title: Final Touches
+description: " "
+beforeImage: /uploads/2025.11.10-cs2.5-oal-piping.bmp
+afterImage: /uploads/spofford.jpg
 order: 3
 ---
