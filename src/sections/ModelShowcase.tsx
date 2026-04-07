@@ -130,8 +130,21 @@ export default function ModelShowcase() {
             onTouchStart={() => setIsDragging(true)}
             onTouchEnd={() => setIsDragging(false)}
           >
-            {/* Background Image (Before/3D Model) */}
+            {/* Background Image (Completed/After) */}
             <div className="absolute inset-0">
+              <img
+                src={currentItem?.afterImage}
+                alt={`${currentItem?.title} - Completed`}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f] via-transparent to-transparent" />
+            </div>
+
+            {/* Foreground Image (3D Model/Before) - Revealed by slider */}
+            <div
+              className="absolute inset-0 overflow-hidden"
+              style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+            >
               <img
                 src={currentItem?.beforeImage}
                 alt={`${currentItem?.title} - 3D Model/Planning`}
@@ -139,29 +152,14 @@ export default function ModelShowcase() {
                 style={{ filter: 'grayscale(30%) brightness(0.7)' }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f] via-transparent to-transparent" />
-              
-              {/* Label */}
-              <div className="absolute top-4 left-4 px-3 py-1 bg-[#009966]/80 rounded text-xs font-medium text-white">
-                3D MODEL / PLANNING
-              </div>
             </div>
 
-            {/* Foreground Image (After/Completed) - Revealed by slider */}
-            <div
-              className="absolute inset-0 overflow-hidden"
-              style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
-            >
-              <img
-                src={currentItem?.afterImage}
-                alt={`${currentItem?.title} - Completed`}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f] via-transparent to-transparent" />
-              
-              {/* Label */}
-              <div className="absolute top-4 right-4 px-3 py-1 bg-[#c94e4e]/80 rounded text-xs font-medium text-white">
-                COMPLETED
-              </div>
+            {/* Labels - Always visible */}
+            <div className="absolute top-4 left-4 px-3 py-1 bg-[#009966]/80 rounded text-xs font-medium text-white z-20">
+              3D MODEL / PLANNING
+            </div>
+            <div className="absolute top-4 right-4 px-3 py-1 bg-[#c94e4e]/80 rounded text-xs font-medium text-white z-20">
+              COMPLETED
             </div>
 
             {/* Slider Handle */}
@@ -277,7 +275,7 @@ export default function ModelShowcase() {
           </div>
         </div>
 
-        {/* Feature Cards - Only 2 cards (removed Quality Construction) */}
+        {/* Feature Cards */}
         <div className="grid md:grid-cols-2 gap-6 mt-16">
           <div className="bg-[#1a1a1a] rounded-xl p-6 border border-white/5">
             <Box size={32} className="text-[#009966] mb-4" />
