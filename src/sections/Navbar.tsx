@@ -120,7 +120,7 @@ export default function Navbar() {
                   <DefaultLogo />
                 )}
               </div>
-              
+            </div>
 
             {/* Desktop Navigation */}
             <div ref={linksRef} className="hidden md:flex items-center gap-8">
