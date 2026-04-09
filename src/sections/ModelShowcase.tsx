@@ -103,9 +103,9 @@ export default function ModelShowcase() {
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#009966]/10 rounded-full mb-6">
-            <Layers size={16} className="text-[#009966]" />
-            <span className="text-sm text-[#009966] font-medium">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#00A0A0]/10 rounded-full mb-6">
+            <Layers size={16} className="text-[#00A0A0]" />
+            <span className="text-sm text-[#00A0A0] font-medium">
               From Concept to Reality
             </span>
           </div>
@@ -155,7 +155,7 @@ export default function ModelShowcase() {
             </div>
 
             {/* Labels - Always visible */}
-            <div className="absolute top-4 left-4 px-3 py-1 bg-[#009966]/80 rounded text-xs font-medium text-white z-20">
+            <div className="absolute top-4 left-4 px-3 py-1 bg-[#00A0A0]/80 rounded text-xs font-medium text-white z-20">
               3D MODEL / PLANNING
             </div>
             <div className="absolute top-4 right-4 px-3 py-1 bg-[#c94e4e]/80 rounded text-xs font-medium text-white z-20">
@@ -175,8 +175,8 @@ export default function ModelShowcase() {
             {/* Info Overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#0f0f0f] to-transparent">
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 bg-[#009966]/20 rounded-lg flex items-center justify-center">
-                  <Box size={20} className="text-[#009966]" />
+                <div className="w-10 h-10 bg-[#00A0A0]/20 rounded-lg flex items-center justify-center">
+                  <Box size={20} className="text-[#00A0A0]" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white">
@@ -203,7 +203,7 @@ export default function ModelShowcase() {
                   }}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     index === currentIndex
-                      ? 'bg-[#009966] w-8'
+                      ? 'bg-[#00A0A0] w-8'
                       : 'bg-white/30 hover:bg-white/50'
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
@@ -261,7 +261,7 @@ export default function ModelShowcase() {
                 }}
                 className={`flex-shrink-0 w-24 h-16 rounded-lg overflow-hidden transition-all duration-300 ${
                   index === currentIndex
-                    ? 'ring-2 ring-[#009966] ring-offset-2 ring-offset-[#0a0a0a]'
+                    ? 'ring-2 ring-[#00A0A0] ring-offset-2 ring-offset-[#0a0a0a]'
                     : 'opacity-50 hover:opacity-80'
                 }`}
               >
@@ -278,7 +278,7 @@ export default function ModelShowcase() {
         {/* Feature Cards */}
         <div className="grid md:grid-cols-2 gap-6 mt-16">
           <div className="bg-[#1a1a1a] rounded-xl p-6 border border-white/5">
-            <Box size={32} className="text-[#009966] mb-4" />
+            <Box size={32} className="text-[#00A0A0] mb-4" />
             <h4 className="text-lg font-bold text-white mb-2">
               3D Visualization
             </h4>
@@ -287,7 +287,7 @@ export default function ModelShowcase() {
             </p>
           </div>
           <div className="bg-[#1a1a1a] rounded-xl p-6 border border-white/5">
-            <Layers size={32} className="text-[#009966] mb-4" />
+            <Layers size={32} className="text-[#00A0A0] mb-4" />
             <h4 className="text-lg font-bold text-white mb-2">
               Detailed Engineering
             </h4>
