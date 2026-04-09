@@ -93,7 +93,7 @@ export default function Projects() {
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="section-title">Completed Projects</h2>
+          <h2 className="section-title">Recent Projects</h2>
           <p className="section-subtitle max-w-2xl mx-auto">
             A showcase of our engineering excellence across the United States
           </p>
