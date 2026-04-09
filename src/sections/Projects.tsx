@@ -149,7 +149,7 @@ export default function Projects() {
                             onClick={() => setActiveImageIndex(imgIndex)}
                             className={`w-2 h-2 rounded-full transition-all duration-300 ${
                               imgIndex === activeImageIndex
-                                ? 'bg-[#009966] w-6'
+                                ? 'bg-[#00A0A0] w-6'
                                 : 'bg-white/50 hover:bg-white/70'
                             }`}
                             aria-label={`View image ${imgIndex + 1}`}
@@ -170,7 +170,7 @@ export default function Projects() {
                       onClick={() => setActiveIndex(index)}
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${
                         index === activeIndex
-                          ? 'bg-[#009966] w-6'
+                          ? 'bg-[#00A0A0] w-6'
                           : 'bg-white/50 hover:bg-white/70'
                       }`}
                       aria-label={`View project ${index + 1}`}
@@ -205,7 +205,7 @@ export default function Projects() {
                   <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">
                     {activeProject.name.toUpperCase()}
                   </h3>
-                  <p className="text-[#009966] font-medium">
+                  <p className="text-[#00A0A0] font-medium">
                     {activeProject.company}
                   </p>
                 </div>
@@ -213,11 +213,11 @@ export default function Projects() {
                 {/* Meta Info */}
                 <div className="flex flex-wrap gap-4">
                   <div className="flex items-center gap-2 text-[#888888]">
-                    <Calendar size={16} className="text-[#009966]" />
+                    <Calendar size={16} className="text-[#00A0A0]" />
                     <span className="text-sm">{activeProject.date}</span>
                   </div>
                   <div className="flex items-center gap-2 text-[#888888]">
-                    <MapPin size={16} className="text-[#009966]" />
+                    <MapPin size={16} className="text-[#00A0A0]" />
                     <span className="text-sm">{activeProject.location}</span>
                   </div>
                 </div>
@@ -238,7 +238,7 @@ export default function Projects() {
                         key={index}
                         className="flex items-center gap-3 text-[#888888] text-sm"
                       >
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#009966]" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#00A0A0]" />
                         {material}
                       </li>
                     ))}
@@ -254,7 +254,7 @@ export default function Projects() {
                       .querySelector('#contact')
                       ?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="inline-flex items-center gap-2 text-[#009966] hover:text-[#00cc88] transition-colors duration-300 font-medium"
+                  className="inline-flex items-center gap-2 text-[#00A0A0] hover:text-[#00CCCC] transition-colors duration-300 font-medium"
                 >
                   Discuss Your Project
                   <ArrowRight size={16} />
@@ -271,7 +271,7 @@ export default function Projects() {
                 onClick={() => setActiveIndex(index)}
                 className={`relative h-24 md:h-32 rounded-xl overflow-hidden transition-all duration-300 ${
                   index === activeIndex
-                    ? 'ring-2 ring-[#009966] ring-offset-2 ring-offset-[#0f0f0f]'
+                    ? 'ring-2 ring-[#00A0A0] ring-offset-2 ring-offset-[#0f0f0f]'
                     : 'opacity-60 hover:opacity-100'
                 }`}
               >
