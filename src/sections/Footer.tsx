@@ -101,7 +101,7 @@ export default function Footer() {
                 >
                   TKE
                 </text>
-                <rect x="10" y="75" width="80" height="2" fill="#009966" />
+                <rect x="10" y="75" width="80" height="2" fill="#00A0A0" />
               </svg>
               <div>
                 <span className="text-white font-bold text-lg block">
@@ -131,7 +131,7 @@ export default function Footer() {
                   <a
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
-                    className="text-[#888888] hover:text-[#009966] transition-colors duration-300 text-sm"
+                    className="text-[#888888] hover:text-[#00A0A0] transition-colors duration-300 text-sm"
                   >
                     {link.name}
                   </a>
@@ -154,7 +154,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`tel:${settings?.phone?.replace(/\./g, '')}`}
-                  className="text-[#888888] hover:text-[#009966] transition-colors duration-300"
+                  className="text-[#888888] hover:text-[#00A0A0] transition-colors duration-300"
                 >
                   {settings?.phone}
                 </a>
@@ -162,7 +162,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`mailto:${settings?.email}`}
-                  className="text-[#888888] hover:text-[#009966] transition-colors duration-300"
+                  className="text-[#888888] hover:text-[#00A0A0] transition-colors duration-300"
                 >
                   {settings?.email}
                 </a>
@@ -189,7 +189,7 @@ export default function Footer() {
                   <a
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
-                    className="text-[#888888] hover:text-[#009966] transition-colors duration-300 text-sm"
+                    className="text-[#888888] hover:text-[#00A0A0] transition-colors duration-300 text-sm"
                   >
                     {link.name}
                   </a>
