@@ -25,7 +25,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const departments = [
   'Estimating',
-  'Piping',
+  'Mechanical',
   'Electrical',
   'Civil',
   'Structural',
