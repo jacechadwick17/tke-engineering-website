@@ -81,36 +81,16 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-12">
           {/* Logo & Description */}
           <div ref={logoRef} className="md:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <svg
-                width="60"
-                height="60"
-                viewBox="0 0 100 100"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="100" height="100" rx="8" fill="#1a1a1a" />
-                <text
-                  x="50"
-                  y="65"
-                  textAnchor="middle"
-                  fill="white"
-                  fontSize="42"
-                  fontWeight="bold"
-                  fontFamily="Oswald, sans-serif"
-                >
-                  TKE
-                </text>
-                <rect x="10" y="75" width="80" height="2" fill="#00A0A0" />
-              </svg>
-              <div>
-                <span className="text-white font-bold text-lg block">
-                  TKE Engineering
-                </span>
-                <span className="text-[#888888] text-sm">
-                  & Design, Inc.
-                </span>
-              </div>
+            <div className="mb-6">
+              {settings?.logoUrl ? (
+                <img
+                  src={settings.logoUrl}
+                  alt="TKE Logo"
+                  className="h-16 w-auto object-contain"
+                />
+              ) : (
+                <div className="h-16 w-48 bg-white/10 rounded animate-pulse" />
+              )}
             </div>
             <p className="text-[#888888] text-sm leading-relaxed max-w-md">
               A medium sized consulting engineering company serving the gas and
