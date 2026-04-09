@@ -147,7 +147,7 @@ export default function Hero() {
             style={{ perspective: '1000px' }}
           >
             <span className="block">{hero.titleLine1}</span>
-            <span className="block text-[#009966]">{hero.titleLine2}</span>
+            <span className="block text-[#00A0A0]">{hero.titleLine2}</span>
           </h1>
 
           {/* Subtitle */}
