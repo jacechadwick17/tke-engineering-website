@@ -50,7 +50,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Location", name: "location", widget: "string" }
-      - { label: "Department", name: "department", widget: "select", options: ["Estimating", "Piping", "Electrical", "Civil", "Structural", "Architectural"] }
+      - { label: "Department", name: "department", widget: "select", options: ["Estimating", "Mechanical", "Electrical", "Civil", "Structural", "Architectural"] }
       - { label: "Active", name: "active", widget: "boolean", default: true, hint: "Uncheck to hide this job posting" }
       - { label: "Description", name: "description", widget: "text" }
       - label: "Requirements"
