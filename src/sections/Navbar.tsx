@@ -120,12 +120,7 @@ export default function Navbar() {
                   <DefaultLogo />
                 )}
               </div>
-              <div className={`hidden md:block transition-all duration-300 ${isScrolled ? 'opacity-0 w-0' : 'opacity-100'}`}>
-                <span className="text-white font-semibold text-sm tracking-wider">
-                  Engineering & Design
-                </span>
-              </div>
-            </div>
+              
 
             {/* Desktop Navigation */}
             <div ref={linksRef} className="hidden md:flex items-center gap-8">
