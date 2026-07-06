@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from '@studio-freight/lenis';
+// Remove or comment out Lenis imports if you want to be totally lean
+// import Lenis from '@studio-freight/lenis'; 
 
 import Navbar from './sections/Navbar';
 import Hero from './sections/Hero';
@@ -16,10 +17,8 @@ import EmployeePortal from './sections/EmployeePortal';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
-  const lenisRef = useRef<Lenis | null>(null);
   const [currentRoute, setCurrentRoute] = useState(window.location.hash);
 
-  // Monitor URL changes to catch when an employee clicks the footer logo
   useEffect(() => {
     const handleHashChange = () => {
       setCurrentRoute(window.location.hash);
@@ -30,49 +29,19 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  // --- NATIVE SCROLLING ---
+  // By removing the Lenis initialization, the browser handles
+  // scrolling natively. It will feel 100% responsive with zero delay.
   useEffect(() => {
-    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-    
-    // Only run smooth scroll on the main site (not the portal)
-    if (!isTouchDevice && currentRoute !== '#portal') {
-      lenisRef.current = new Lenis({
-        duration: 0.8,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: 'vertical',
-        smoothWheel: true,
-        wheelMultiplier: 1,
-        touchMultiplier: 1.5,
-      });
-
-      function raf(time: number) {
-        lenisRef.current?.raf(time);
-        requestAnimationFrame(raf);
-      }
-
-      requestAnimationFrame(raf);
-      lenisRef.current.on('scroll', ScrollTrigger.update);
-
-      gsap.ticker.add((time) => {
-        lenisRef.current?.raf(time * 1000);
-      });
-
-      gsap.ticker.lagSmoothing(0);
-    }
-
-    return () => {
-      lenisRef.current?.destroy();
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
+    ScrollTrigger.refresh();
   }, [currentRoute]);
 
   return (
     <div className="relative min-h-screen bg-[#0f0f0f]">
       <div className="noise-overlay" />
       
-      {/* Navbar always stays so they can click "Home" to leave */}
       <Navbar />
       
-      {/* Switch between the Portal and the Main Site */}
       {currentRoute === '#portal' ? (
         <EmployeePortal />
       ) : (
