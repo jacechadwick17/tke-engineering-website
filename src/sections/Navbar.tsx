@@ -51,12 +51,21 @@ export default function Navbar() {
   }, []);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // If we are currently IN the portal, we want to LEAVE and go to the main site.
+    // We allow the default browser behavior so the URL hash changes, 
+    // which triggers the App.tsx listener to swap views.
+    if (window.location.hash === '#portal') {
+      setIsMobileMenuOpen(false);
+      return; 
+    }
+
+    // If we are on the main site, handle smooth scroll as normal
     e.preventDefault();
+    setIsMobileMenuOpen(false);
     const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth' });
     }
-    setIsMobileMenuOpen(false);
   };
 
   // Default logo SVG
@@ -109,15 +118,19 @@ export default function Navbar() {
                 {loading ? (
                   <div className="w-[50px] h-[50px] bg-white/10 rounded animate-pulse" />
                 ) : settings?.logoUrl ? (
-                  <img
-                    src={settings.logoUrl}
-                    alt="TKE Logo"
-                    width={settings.logoWidth || 50}
-                    height={settings.logoWidth || 50}
-                    className="transition-transform duration-300 hover:scale-105 object-contain"
-                  />
+                  <a href="#home" onClick={(e) => handleLinkClick(e, '#home')}>
+                    <img
+                      src={settings.logoUrl}
+                      alt="TKE Logo"
+                      width={settings.logoWidth || 50}
+                      height={settings.logoWidth || 50}
+                      className="transition-transform duration-300 hover:scale-105 object-contain"
+                    />
+                  </a>
                 ) : (
-                  <DefaultLogo />
+                  <a href="#home" onClick={(e) => handleLinkClick(e, '#home')}>
+                    <DefaultLogo />
+                  </a>
                 )}
               </div>
             </div>
