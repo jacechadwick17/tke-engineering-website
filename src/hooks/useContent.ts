@@ -177,58 +177,32 @@ export function useModelShowcase() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadSlides = async () => {
-      try {
-        // Load the manifest file that lists all slides
-        const manifestResponse = await fetch('/content/model-showcase-manifest.md');
-        let slideSlugs: string[] = [];
+    try {
+      const slideFiles = import.meta.glob('/public/content/model-showcase/*.md', { as: 'raw', eager: true });
+      const loadedSlides: ModelShowcaseSlide[] = [];
+      
+      for (const path in slideFiles) {
+        const content = slideFiles[path] as string;
+        const slug = path.split('/').pop()?.replace('.md', '') || '';
+        const { frontmatter } = parseFrontmatter(content);
         
-        if (manifestResponse.ok) {
-          const manifestContent = await manifestResponse.text();
-          const { frontmatter } = parseFrontmatter(manifestContent);
-          slideSlugs = frontmatter.slides || [];
+        if (frontmatter.beforeImage || frontmatter.afterImage || frontmatter.image) {
+          loadedSlides.push({
+            slug,
+            title: frontmatter.title || '',
+            description: frontmatter.description || '',
+            beforeImage: frontmatter.beforeImage || frontmatter.image || '',
+            afterImage: frontmatter.afterImage || frontmatter.image || '',
+            order: frontmatter.order || 999,
+          });
         }
-
-        // If no manifest, try to load a default list
-        if (slideSlugs.length === 0) {
-          slideSlugs = ['slide-1', 'slide-2', 'slide-3'];
-        }
-
-        const loadedSlides: ModelShowcaseSlide[] = [];
-        
-        for (const slug of slideSlugs) {
-          try {
-            const response = await fetch(`/content/model-showcase/${slug}.md`);
-            if (!response.ok) continue;
-            
-            const content = await response.text();
-            const { frontmatter } = parseFrontmatter(content);
-            
-            // Only add if it has images
-            if (frontmatter.beforeImage || frontmatter.afterImage || frontmatter.image) {
-              loadedSlides.push({
-                slug,
-                title: frontmatter.title || '',
-                description: frontmatter.description || '',
-                beforeImage: frontmatter.beforeImage || frontmatter.image || '',
-                afterImage: frontmatter.afterImage || frontmatter.image || '',
-                order: frontmatter.order || 999,
-              });
-            }
-          } catch {
-            // Skip files that don't exist or fail to load
-          }
-        }
-
-        setSlides(loadedSlides.sort((a, b) => a.order - b.order));
-      } catch (error) {
-        console.error('Error loading model showcase:', error);
-      } finally {
-        setLoading(false);
       }
-    };
-
-    loadSlides();
+      setSlides(loadedSlides.sort((a, b) => a.order - b.order));
+    } catch (error) {
+      console.error('Error loading model showcase:', error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   return { slides, loading };
@@ -239,38 +213,31 @@ export function useJobs() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadJobs = async () => {
-      try {
-        const jobFiles = [
-          '/content/jobs/electrical-design-engineer.md',
-        ];
-
-        const loadedJobs: Job[] = [];
-        for (const file of jobFiles) {
-          const response = await fetch(file);
-          const content = await response.text();
-          const { frontmatter } = parseFrontmatter(content);
-          const slug = file.split('/').pop()?.replace('.md', '') || '';
-          loadedJobs.push({
-            slug,
-            title: frontmatter.title || '',
-            location: frontmatter.location || '',
-            department: frontmatter.department || '',
-            active: frontmatter.active ?? true,
-            description: frontmatter.description || '',
-            requirements: frontmatter.requirements || [],
-          });
-        }
-
-        setJobs(loadedJobs.filter(job => job.active));
-      } catch (error) {
-        console.error('Error loading jobs:', error);
-      } finally {
-        setLoading(false);
+    try {
+      const jobFiles = import.meta.glob('/public/content/jobs/*.md', { as: 'raw', eager: true });
+      const loadedJobs: Job[] = [];
+      
+      for (const path in jobFiles) {
+        const content = jobFiles[path] as string;
+        const slug = path.split('/').pop()?.replace('.md', '') || '';
+        const { frontmatter } = parseFrontmatter(content);
+        
+        loadedJobs.push({
+          slug,
+          title: frontmatter.title || '',
+          location: frontmatter.location || '',
+          department: frontmatter.department || '',
+          active: frontmatter.active ?? true,
+          description: frontmatter.description || '',
+          requirements: frontmatter.requirements || [],
+        });
       }
-    };
-
-    loadJobs();
+      setJobs(loadedJobs.filter(job => job.active));
+    } catch (error) {
+      console.error('Error loading jobs:', error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   return { jobs, loading };
@@ -281,67 +248,41 @@ export function useProjects() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadProjects = async () => {
-      try {
-        // Load the manifest file that lists all projects
-        const manifestResponse = await fetch('/content/projects-manifest.md');
-        let projectSlugs: string[] = [];
+    try {
+      const projectFiles = import.meta.glob('/public/content/projects/*.md', { as: 'raw', eager: true });
+      const loadedProjects: Project[] = [];
+      
+      for (const path in projectFiles) {
+        const content = projectFiles[path] as string;
+        const slug = path.split('/').pop()?.replace('.md', '') || '';
+        const { frontmatter } = parseFrontmatter(content);
         
-        if (manifestResponse.ok) {
-          const manifestContent = await manifestResponse.text();
-          const { frontmatter } = parseFrontmatter(manifestContent);
-          projectSlugs = frontmatter.projects || [];
+        let images: string[] = [];
+        if (frontmatter.images && Array.isArray(frontmatter.images)) {
+          images = frontmatter.images;
+        } else if (frontmatter.image) {
+          images = [frontmatter.image];
         }
-
-        // If no manifest, try to load a default list
-        if (projectSlugs.length === 0) {
-          projectSlugs = ['ngpl-station-348', 'custody-transfer-ms'];
-        }
-
-        const loadedProjects: Project[] = [];
         
-        for (const slug of projectSlugs) {
-          try {
-            const response = await fetch(`/content/projects/${slug}.md`);
-            if (!response.ok) continue;
-            
-            const content = await response.text();
-            const { frontmatter } = parseFrontmatter(content);
-            
-            // Support both old 'image' and new 'images' format
-            let images: string[] = [];
-            if (frontmatter.images && Array.isArray(frontmatter.images)) {
-              images = frontmatter.images;
-            } else if (frontmatter.image) {
-              images = [frontmatter.image];
-            }
-            
-            if (images.length > 0 || frontmatter.name) {
-              loadedProjects.push({
-                slug,
-                name: frontmatter.name || '',
-                company: frontmatter.company || '',
-                date: frontmatter.date || '',
-                location: frontmatter.location || '',
-                description: frontmatter.description || '',
-                images: images,
-                materials: frontmatter.materials || [],
-              });
-            }
-          } catch (err) {
-            console.warn(`Failed to load project: ${slug}`, err);
-          }
+        if (images.length > 0 || frontmatter.name) {
+          loadedProjects.push({
+            slug,
+            name: frontmatter.name || '',
+            company: frontmatter.company || '',
+            date: frontmatter.date || '',
+            location: frontmatter.location || '',
+            description: frontmatter.description || '',
+            images: images,
+            materials: frontmatter.materials || [],
+          });
         }
-
-        setProjects(loadedProjects);
-      } catch (error) {
-        console.error('Error loading projects:', error);
-      } finally {
-        setLoading(false);
       }
-    };
-
-    loadProjects();
+      setProjects(loadedProjects);
+    } catch (error) {
+      console.error('Error loading projects:', error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   return { projects, loading };
@@ -352,47 +293,30 @@ export function useServices() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadServices = async () => {
-      try {
-        const serviceFiles = [
-          '/content/services/conceptual-design.md',
-          '/content/services/ferc-support.md',
-          '/content/services/leaching.md',
-          '/content/services/dehydration.md',
-          '/content/services/compression.md',
-          '/content/services/injection.md',
-          '/content/services/withdrawal.md',
-          '/content/services/btex-recovery.md',
-          '/content/services/metering-regulating.md',
-          '/content/services/interconnect.md',
-          '/content/services/retrofits.md',
-        ];
-
-        const loadedServices: Service[] = [];
-        for (const file of serviceFiles) {
-          const response = await fetch(file);
-          const content = await response.text();
-          const { frontmatter, body } = parseFrontmatter(content);
-          const slug = file.split('/').pop()?.replace('.md', '') || '';
-          loadedServices.push({
-            slug,
-            name: frontmatter.name || '',
-            icon: frontmatter.icon || 'Settings',
-            featured: frontmatter.featured || false,
-            shortDescription: frontmatter.shortDescription || '',
-            fullDescription: frontmatter.fullDescription || body || '',
-          });
-        }
-
-        setServices(loadedServices);
-      } catch (error) {
-        console.error('Error loading services:', error);
-      } finally {
-        setLoading(false);
+    try {
+      const serviceFiles = import.meta.glob('/public/content/services/*.md', { as: 'raw', eager: true });
+      const loadedServices: Service[] = [];
+      
+      for (const path in serviceFiles) {
+        const content = serviceFiles[path] as string;
+        const slug = path.split('/').pop()?.replace('.md', '') || '';
+        const { frontmatter, body } = parseFrontmatter(content);
+        
+        loadedServices.push({
+          slug,
+          name: frontmatter.name || '',
+          icon: frontmatter.icon || 'Settings',
+          featured: frontmatter.featured || false,
+          shortDescription: frontmatter.shortDescription || '',
+          fullDescription: frontmatter.fullDescription || body || '',
+        });
       }
-    };
-
-    loadServices();
+      setServices(loadedServices);
+    } catch (error) {
+      console.error('Error loading services:', error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   return { services, loading };
