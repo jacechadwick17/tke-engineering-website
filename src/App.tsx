@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// Remove or comment out Lenis imports if you want to be totally lean
-// import Lenis from '@studio-freight/lenis'; 
 
 import Navbar from './sections/Navbar';
 import Hero from './sections/Hero';
@@ -19,6 +17,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function App() {
   const [currentRoute, setCurrentRoute] = useState(window.location.hash);
 
+  // Monitor URL changes to catch when an employee clicks the footer logo
   useEffect(() => {
     const handleHashChange = () => {
       setCurrentRoute(window.location.hash);
@@ -29,9 +28,7 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // --- NATIVE SCROLLING ---
-  // By removing the Lenis initialization, the browser handles
-  // scrolling natively. It will feel 100% responsive with zero delay.
+  // Ensure scroll triggers refresh when routes change
   useEffect(() => {
     ScrollTrigger.refresh();
   }, [currentRoute]);
