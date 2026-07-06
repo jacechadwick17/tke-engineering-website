@@ -36,7 +36,7 @@ export default function App() {
     // Only run smooth scroll on the main site (not the portal)
     if (!isTouchDevice && currentRoute !== '#portal') {
       lenisRef.current = new Lenis({
-        duration: 1.2,
+        duration: 0.8,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         orientation: 'vertical',
         smoothWheel: true,
