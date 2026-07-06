@@ -1,12 +1,9 @@
 backend:
   name: git-gateway
   branch: main
-
 media_folder: "public/uploads"
 public_folder: "/uploads"
-
 publish_mode: editorial_workflow
-
 collections:
   - name: "hero"
     label: "Hero Section"
@@ -25,7 +22,6 @@ collections:
       - { label: "CTA Button 1 Link", name: "cta1Link", widget: "string", default: "#services" }
       - { label: "CTA Button 2 Text", name: "cta2Text", widget: "string", default: "Get In Touch" }
       - { label: "CTA Button 2 Link", name: "cta2Link", widget: "string", default: "#contact" }
-
   - name: "modelShowcase"
     label: "3D Model Showcase"
     folder: "public/content/model-showcase"
@@ -39,7 +35,6 @@ collections:
       - { label: "Before Image (3D Model/Planning)", name: "beforeImage", widget: "image", hint: "The 3D model or planning phase image" }
       - { label: "After Image (Completed)", name: "afterImage", widget: "image", hint: "The completed/finished construction image" }
       - { label: "Order", name: "order", widget: "number", default: 1, hint: "Display order (1, 2, 3, etc.)" }
-
   - name: "jobs"
     label: "Job Openings"
     folder: "public/content/jobs"
@@ -57,7 +52,6 @@ collections:
         name: "requirements"
         widget: "list"
         field: { name: "requirement", label: "Requirement", widget: "string" }
-
   - name: "projects"
     label: "Projects"
     folder: "public/content/projects"
@@ -80,7 +74,6 @@ collections:
         name: "materials"
         widget: "list"
         field: { name: "material", label: "Material/Service", widget: "string" }
-
   - name: "services"
     label: "Services"
     folder: "public/content/services"
@@ -94,7 +87,6 @@ collections:
       - { label: "Short Description", name: "shortDescription", widget: "text", required: false }
       - { label: "Full Description", name: "fullDescription", widget: "markdown" }
       - { label: "Featured", name: "featured", widget: "boolean", default: false, hint: "Show in main services section" }
-
   - name: "settings"
     label: "Site Settings"
     files:
@@ -114,7 +106,6 @@ collections:
           - { label: "Projects Completed", name: "projectsCompleted", widget: "string", default: "500+" }
           - { label: "About Text", name: "aboutText", widget: "markdown" }
           - { label: "What We Do Text", name: "whatWeDoText", widget: "markdown" }
-
   - name: "projectsManifest"
     label: "Projects List (Auto-managed)"
     folder: "public/content"
@@ -127,8 +118,7 @@ collections:
         name: "projects"
         widget: "list"
         field: { name: "slug", label: "Project Slug", widget: "string" }
-        hint: "List of all projects in display order. Add project slugs here (match the filename without .md)"
-
+        hint: "List of all projects in display order."
   - name: "modelShowcaseManifest"
     label: "3D Slides List (Auto-managed)"
     folder: "public/content"
@@ -141,4 +131,15 @@ collections:
         name: "slides"
         widget: "list"
         field: { name: "slug", label: "Slide Slug", widget: "string" }
-        hint: "List of all 3D showcase slides in display order. Add slide slugs here (match the filename without .md)"
+        hint: "List of all 3D showcase slides in display order."
+  - name: "hrDocs"
+    label: "HR Documents"
+    folder: "public/content/hr-docs"
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["Benefits", "Time Off", "Finance", "General", "Onboarding"] }
+      - { label: "Document File (PDF)", name: "documentFile", widget: "file", hint: "Upload the PDF document here" }
