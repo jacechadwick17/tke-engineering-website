@@ -22,7 +22,7 @@ export default function EmployeePortal() {
 
   const handleUnlock = (e: React.FormEvent) => {
     e.preventDefault();
-    if (pinCode === '2026') { 
+    if (pinCode === '7111') { 
       setIsUnlocked(true); 
     } else { 
       setHasError(true); 
