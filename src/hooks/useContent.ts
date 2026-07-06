@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 
+// --- Interfaces ---
 export interface Job {
   slug: string;
   title: string;
@@ -66,7 +67,14 @@ export interface Settings {
   whatWeDoText: string;
 }
 
-// Parse frontmatter from markdown content
+export interface HrDocument {
+  slug: string;
+  title: string;
+  category: string;
+  documentFile: string;
+}
+
+// --- Parse frontmatter from markdown content ---
 function parseFrontmatter(content: string): { frontmatter: Record<string, any>; body: string } {
   const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!match) {
@@ -79,7 +87,6 @@ function parseFrontmatter(content: string): { frontmatter: Record<string, any>; 
   const frontmatter: Record<string, any> = {};
   const lines = frontmatterText.split('\n');
   let currentKey = '';
-  let currentValue: any = '';
   let inList = false;
   let listItems: string[] = [];
 
@@ -103,30 +110,20 @@ function parseFrontmatter(content: string): { frontmatter: Record<string, any>; 
     const keyValueMatch = line.match(/^([^:]+):\s*(.+)?$/);
     if (keyValueMatch) {
       currentKey = keyValueMatch[1].trim();
-      currentValue = keyValueMatch[2]?.trim() || '';
+      let currentValue: any = keyValueMatch[2]?.trim() || '';
 
-      // Remove quotes if present
       if (currentValue.startsWith('"') && currentValue.endsWith('"')) {
         currentValue = currentValue.slice(1, -1);
       }
 
-      // Parse booleans
       if (currentValue === 'true') currentValue = true;
       if (currentValue === 'false') currentValue = false;
-
-      // Parse numbers
       if (!isNaN(Number(currentValue)) && currentValue !== '') {
         currentValue = Number(currentValue);
       }
 
-      // Parse multiline strings (starts with | or >)
-      if (currentValue === '|' || currentValue === '>') {
-        currentValue = '';
-      }
-
       frontmatter[currentKey] = currentValue;
     } else if (currentKey && line.startsWith('  ')) {
-      // Continuation of multiline value
       frontmatter[currentKey] += (frontmatter[currentKey] ? '\n' : '') + line.trim();
     }
   }
@@ -137,6 +134,8 @@ function parseFrontmatter(content: string): { frontmatter: Record<string, any>; 
 
   return { frontmatter, body };
 }
+
+// --- Hooks ---
 
 export function useHero() {
   const [hero, setHero] = useState<Hero | null>(null);
@@ -177,32 +176,55 @@ export function useModelShowcase() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const slideFiles = import.meta.glob('/public/content/model-showcase/*.md', { as: 'raw', eager: true });
-      const loadedSlides: ModelShowcaseSlide[] = [];
-      
-      for (const path in slideFiles) {
-        const content = slideFiles[path] as string;
-        const slug = path.split('/').pop()?.replace('.md', '') || '';
-        const { frontmatter } = parseFrontmatter(content);
+    const loadSlides = async () => {
+      try {
+        const manifestResponse = await fetch('/content/model-showcase-manifest.md');
+        let slideSlugs: string[] = [];
         
-        if (frontmatter.beforeImage || frontmatter.afterImage || frontmatter.image) {
-          loadedSlides.push({
-            slug,
-            title: frontmatter.title || '',
-            description: frontmatter.description || '',
-            beforeImage: frontmatter.beforeImage || frontmatter.image || '',
-            afterImage: frontmatter.afterImage || frontmatter.image || '',
-            order: frontmatter.order || 999,
-          });
+        if (manifestResponse.ok) {
+          const manifestContent = await manifestResponse.text();
+          const { frontmatter } = parseFrontmatter(manifestContent);
+          slideSlugs = frontmatter.slides || [];
         }
+
+        if (slideSlugs.length === 0) {
+          slideSlugs = ['slide-1', 'slide-2', 'slide-3'];
+        }
+
+        const loadedSlides: ModelShowcaseSlide[] = [];
+        
+        for (const slug of slideSlugs) {
+          try {
+            const response = await fetch(`/content/model-showcase/${slug}.md`);
+            if (!response.ok) continue;
+            
+            const content = await response.text();
+            const { frontmatter } = parseFrontmatter(content);
+            
+            if (frontmatter.beforeImage || frontmatter.afterImage || frontmatter.image) {
+              loadedSlides.push({
+                slug,
+                title: frontmatter.title || '',
+                description: frontmatter.description || '',
+                beforeImage: frontmatter.beforeImage || frontmatter.image || '',
+                afterImage: frontmatter.afterImage || frontmatter.image || '',
+                order: frontmatter.order || 999,
+              });
+            }
+          } catch (err) {
+            console.error(`Error loading slide ${slug}`, err);
+          }
+        }
+
+        setSlides(loadedSlides.sort((a, b) => a.order - b.order));
+      } catch (error) {
+        console.error('Error loading model showcase:', error);
+      } finally {
+        setLoading(false);
       }
-      setSlides(loadedSlides.sort((a, b) => a.order - b.order));
-    } catch (error) {
-      console.error('Error loading model showcase:', error);
-    } finally {
-      setLoading(false);
-    }
+    };
+
+    loadSlides();
   }, []);
 
   return { slides, loading };
@@ -213,31 +235,40 @@ export function useJobs() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const jobFiles = import.meta.glob('/public/content/jobs/*.md', { as: 'raw', eager: true });
-      const loadedJobs: Job[] = [];
-      
-      for (const path in jobFiles) {
-        const content = jobFiles[path] as string;
-        const slug = path.split('/').pop()?.replace('.md', '') || '';
-        const { frontmatter } = parseFrontmatter(content);
-        
-        loadedJobs.push({
-          slug,
-          title: frontmatter.title || '',
-          location: frontmatter.location || '',
-          department: frontmatter.department || '',
-          active: frontmatter.active ?? true,
-          description: frontmatter.description || '',
-          requirements: frontmatter.requirements || [],
-        });
+    const loadJobs = async () => {
+      try {
+        const jobFiles = [
+          '/content/jobs/electrical-design-engineer.md',
+        ];
+
+        const loadedJobs: Job[] = [];
+        for (const file of jobFiles) {
+          const response = await fetch(file);
+          if (!response.ok) continue;
+          
+          const content = await response.text();
+          const { frontmatter } = parseFrontmatter(content);
+          const slug = file.split('/').pop()?.replace('.md', '') || '';
+          loadedJobs.push({
+            slug,
+            title: frontmatter.title || '',
+            location: frontmatter.location || '',
+            department: frontmatter.department || '',
+            active: frontmatter.active ?? true,
+            description: frontmatter.description || '',
+            requirements: frontmatter.requirements || [],
+          });
+        }
+
+        setJobs(loadedJobs.filter(job => job.active));
+      } catch (error) {
+        console.error('Error loading jobs:', error);
+      } finally {
+        setLoading(false);
       }
-      setJobs(loadedJobs.filter(job => job.active));
-    } catch (error) {
-      console.error('Error loading jobs:', error);
-    } finally {
-      setLoading(false);
-    }
+    };
+
+    loadJobs();
   }, []);
 
   return { jobs, loading };
@@ -248,41 +279,64 @@ export function useProjects() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const projectFiles = import.meta.glob('/public/content/projects/*.md', { as: 'raw', eager: true });
-      const loadedProjects: Project[] = [];
-      
-      for (const path in projectFiles) {
-        const content = projectFiles[path] as string;
-        const slug = path.split('/').pop()?.replace('.md', '') || '';
-        const { frontmatter } = parseFrontmatter(content);
+    const loadProjects = async () => {
+      try {
+        const manifestResponse = await fetch('/content/projects-manifest.md');
+        let projectSlugs: string[] = [];
         
-        let images: string[] = [];
-        if (frontmatter.images && Array.isArray(frontmatter.images)) {
-          images = frontmatter.images;
-        } else if (frontmatter.image) {
-          images = [frontmatter.image];
+        if (manifestResponse.ok) {
+          const manifestContent = await manifestResponse.text();
+          const { frontmatter } = parseFrontmatter(manifestContent);
+          projectSlugs = frontmatter.projects || [];
         }
+
+        if (projectSlugs.length === 0) {
+          projectSlugs = ['ngpl-station-348', 'custody-transfer-ms'];
+        }
+
+        const loadedProjects: Project[] = [];
         
-        if (images.length > 0 || frontmatter.name) {
-          loadedProjects.push({
-            slug,
-            name: frontmatter.name || '',
-            company: frontmatter.company || '',
-            date: frontmatter.date || '',
-            location: frontmatter.location || '',
-            description: frontmatter.description || '',
-            images: images,
-            materials: frontmatter.materials || [],
-          });
+        for (const slug of projectSlugs) {
+          try {
+            const response = await fetch(`/content/projects/${slug}.md`);
+            if (!response.ok) continue;
+            
+            const content = await response.text();
+            const { frontmatter } = parseFrontmatter(content);
+            
+            let images: string[] = [];
+            if (frontmatter.images && Array.isArray(frontmatter.images)) {
+              images = frontmatter.images;
+            } else if (frontmatter.image) {
+              images = [frontmatter.image];
+            }
+            
+            if (images.length > 0 || frontmatter.name) {
+              loadedProjects.push({
+                slug,
+                name: frontmatter.name || '',
+                company: frontmatter.company || '',
+                date: frontmatter.date || '',
+                location: frontmatter.location || '',
+                description: frontmatter.description || '',
+                images: images,
+                materials: frontmatter.materials || [],
+              });
+            }
+          } catch (err) {
+            console.warn(`Failed to load project: ${slug}`, err);
+          }
         }
+
+        setProjects(loadedProjects);
+      } catch (error) {
+        console.error('Error loading projects:', error);
+      } finally {
+        setLoading(false);
       }
-      setProjects(loadedProjects);
-    } catch (error) {
-      console.error('Error loading projects:', error);
-    } finally {
-      setLoading(false);
-    }
+    };
+
+    loadProjects();
   }, []);
 
   return { projects, loading };
@@ -293,30 +347,49 @@ export function useServices() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const serviceFiles = import.meta.glob('/public/content/services/*.md', { as: 'raw', eager: true });
-      const loadedServices: Service[] = [];
-      
-      for (const path in serviceFiles) {
-        const content = serviceFiles[path] as string;
-        const slug = path.split('/').pop()?.replace('.md', '') || '';
-        const { frontmatter, body } = parseFrontmatter(content);
-        
-        loadedServices.push({
-          slug,
-          name: frontmatter.name || '',
-          icon: frontmatter.icon || 'Settings',
-          featured: frontmatter.featured || false,
-          shortDescription: frontmatter.shortDescription || '',
-          fullDescription: frontmatter.fullDescription || body || '',
-        });
+    const loadServices = async () => {
+      try {
+        const serviceFiles = [
+          '/content/services/conceptual-design.md',
+          '/content/services/ferc-support.md',
+          '/content/services/leaching.md',
+          '/content/services/dehydration.md',
+          '/content/services/compression.md',
+          '/content/services/injection.md',
+          '/content/services/withdrawal.md',
+          '/content/services/btex-recovery.md',
+          '/content/services/metering-regulating.md',
+          '/content/services/interconnect.md',
+          '/content/services/retrofits.md',
+        ];
+
+        const loadedServices: Service[] = [];
+        for (const file of serviceFiles) {
+          const response = await fetch(file);
+          if (!response.ok) continue;
+          
+          const content = await response.text();
+          const { frontmatter, body } = parseFrontmatter(content);
+          const slug = file.split('/').pop()?.replace('.md', '') || '';
+          loadedServices.push({
+            slug,
+            name: frontmatter.name || '',
+            icon: frontmatter.icon || 'Settings',
+            featured: frontmatter.featured || false,
+            shortDescription: frontmatter.shortDescription || '',
+            fullDescription: frontmatter.fullDescription || body || '',
+          });
+        }
+
+        setServices(loadedServices);
+      } catch (error) {
+        console.error('Error loading services:', error);
+      } finally {
+        setLoading(false);
       }
-      setServices(loadedServices);
-    } catch (error) {
-      console.error('Error loading services:', error);
-    } finally {
-      setLoading(false);
-    }
+    };
+
+    loadServices();
   }, []);
 
   return { services, loading };
@@ -356,4 +429,38 @@ export function useSettings() {
   }, []);
 
   return { settings, loading };
+}
+
+// New Automatic Hook for HR Docs
+export function useHrDocuments() {
+  const [hrDocs, setHrDocs] = useState<HrDocument[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    try {
+      // Uses the same automatic folder scan as projects
+      const docFiles = import.meta.glob('/public/content/hr-docs/*.md', { as: 'raw', eager: true });
+      const loadedDocs: HrDocument[] = [];
+      
+      for (const path in docFiles) {
+        const content = docFiles[path] as string;
+        const slug = path.split('/').pop()?.replace('.md', '') || '';
+        const { frontmatter } = parseFrontmatter(content);
+        
+        loadedDocs.push({
+          slug,
+          title: frontmatter.title || '',
+          category: frontmatter.category || 'General',
+          documentFile: frontmatter.documentFile || '',
+        });
+      }
+      setHrDocs(loadedDocs);
+    } catch (error) {
+      console.error('Error loading HR docs:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  return { hrDocs, loading };
 }
