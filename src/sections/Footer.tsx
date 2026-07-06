@@ -49,7 +49,7 @@ export default function Footer() {
   }, []);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('#')) {
+    if (href.startsWith('#') && href !== '#portal') {
       e.preventDefault();
       const target = document.querySelector(href);
       if (target) {
@@ -76,21 +76,22 @@ export default function Footer() {
       ref={footerRef}
       className="relative bg-[#0a0a0a] border-t border-white/5"
     >
-      {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-16">
         <div className="grid md:grid-cols-4 gap-12">
-          {/* Logo & Description */}
           <div ref={logoRef} className="md:col-span-2">
             <div className="mb-6">
-              {settings?.logoUrl ? (
-                <img
-                  src={settings.logoUrl}
-                  alt="TKE Logo"
-                  className="h-16 w-auto object-contain"
-                />
-              ) : (
-                <div className="h-16 w-48 bg-white/10 rounded animate-pulse" />
-              )}
+              {/* Added Link to Portal Here */}
+              <a href="#portal" className="inline-block transition-transform hover:scale-105 cursor-pointer opacity-80 hover:opacity-100" title="Employee Portal">
+                {settings?.logoUrl ? (
+                  <img
+                    src={settings.logoUrl}
+                    alt="TKE Logo"
+                    className="h-16 w-auto object-contain"
+                  />
+                ) : (
+                  <div className="h-16 w-48 bg-white/10 rounded animate-pulse" />
+                )}
+              </a>
             </div>
             <p className="text-[#888888] text-sm leading-relaxed max-w-md">
               A medium sized consulting engineering company serving the gas and
@@ -100,7 +101,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h4 className="text-white font-semibold mb-4 uppercase tracking-wider text-sm">
               Quick Links
@@ -120,7 +120,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact Info */}
           <div>
             <h4 className="text-white font-semibold mb-4 uppercase tracking-wider text-sm">
               Contact
@@ -152,17 +151,14 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
       <div className="border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            {/* Copyright */}
             <p className="text-[#888888] text-sm text-center md:text-left">
               Copyright &copy; {new Date().getFullYear()} TKE Engineering &
               Design, All Rights Reserved.
             </p>
 
-            {/* Footer Links */}
             <div className="flex items-center gap-4">
               {footerLinks.map((link, index) => (
                 <span key={link.name} className="flex items-center gap-4">
@@ -183,7 +179,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Large Background Logo */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none overflow-hidden opacity-[0.02]">
         <span
           className="text-[40vw] font-bold text-white select-none"
