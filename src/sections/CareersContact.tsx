@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { toast, Toaster } from 'sonner';
 import {
   Mail,
   Phone,
@@ -48,7 +49,6 @@ export default function CareersContact() {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
   const [selectedJob, setSelectedJob] = useState<string | null>(null);
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -98,24 +98,23 @@ export default function CareersContact() {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitMessage('Thank you for your message. We will reply promptly.');
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        message: '',
-      });
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      setTimeout(() => setSubmitMessage(''), 5000);
-    }, 1500);
+    setIsSubmitting(false);
+    toast.success("Message sent! We'll get back to you soon.");
+    
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      message: '',
+    });
   };
 
   const handleChange = (
@@ -152,6 +151,9 @@ export default function CareersContact() {
       ref={sectionRef}
       className="relative py-20 md:py-32 bg-[#0f0f0f]"
     >
+      {/* Toast Notification Container with Dark Theme applied */}
+      <Toaster position="top-right" richColors theme="dark" />
+
       {/* Diagonal Divider Background */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -346,12 +348,6 @@ export default function CareersContact() {
               <h3 className="text-lg font-bold text-white mb-4">
                 Send Us a Message
               </h3>
-
-              {submitMessage && (
-                <div className="mb-4 p-4 bg-[#00A0A0]/10 border border-[#00A0A0]/30 rounded-lg">
-                  <p className="text-[#00A0A0] text-sm">{submitMessage}</p>
-                </div>
-              )}
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
