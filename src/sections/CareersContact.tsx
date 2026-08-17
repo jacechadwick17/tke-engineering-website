@@ -1,12 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { toast, Toaster } from 'sonner';
 import {
   Mail,
   Phone,
   MapPin,
-  Send,
   Heart,
   Clock,
   Users,
@@ -41,14 +39,6 @@ const benefits = [
 ];
 
 export default function CareersContact() {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedJob, setSelectedJob] = useState<string | null>(null);
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -98,35 +88,8 @@ export default function CareersContact() {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    setIsSubmitting(false);
-    toast.success("Message sent! We'll get back to you soon.");
-    
-    setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      message: '',
-    });
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
   const selectedJobData = jobs.find((j) => j.slug === selectedJob);
+  const resumeEmail = settings?.resumeEmail || 'resumes@tke-engineering.com';
 
   if (jobsLoading || settingsLoading) {
     return (
@@ -151,9 +114,6 @@ export default function CareersContact() {
       ref={sectionRef}
       className="relative py-20 md:py-32 bg-[#0f0f0f]"
     >
-      {/* Toast Notification Container with Dark Theme applied */}
-      <Toaster position="top-right" richColors theme="dark" />
-
       {/* Diagonal Divider Background */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -265,20 +225,18 @@ export default function CareersContact() {
                       {job.description}
                     </p>
 
-                    <div className="flex gap-3">
+                    <div className="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-white/5">
                       <button
                         onClick={() => setSelectedJob(job.slug)}
                         className="text-sm text-[#00A0A0] hover:text-[#00CCCC] transition-colors font-medium"
                       >
                         View Details
                       </button>
-                      <a
-                        href={`mailto:${settings?.resumeEmail}`}
-                        className="inline-flex items-center gap-2 text-[#00A0A0] hover:text-[#00CCCC] transition-colors duration-300 text-sm font-medium"
-                      >
-                        <Mail size={14} />
-                        Apply Now
-                      </a>
+                      <span className="hidden sm:inline text-white/20">|</span>
+                      <div className="flex items-center gap-2 text-sm text-[#888888]">
+                        <Mail size={14} className="text-[#00A0A0]" />
+                        <span>Apply at <a href={`mailto:${resumeEmail}`} className="text-[#00A0A0] hover:text-[#00CCCC] transition-colors">{resumeEmail}</a></span>
+                      </div>
                     </div>
                   </div>
                 ))
@@ -286,7 +244,7 @@ export default function CareersContact() {
             </div>
           </div>
 
-          {/* Right Column - Contact */}
+          {/* Right Column - Contact (Simplified) */}
           <div ref={rightRef} className="space-y-10">
             {/* Contact Header */}
             <div>
@@ -297,14 +255,14 @@ export default function CareersContact() {
             </div>
 
             {/* Contact Info */}
-            <div className="bg-[#1a1a1a] rounded-xl p-6 border border-white/5 space-y-4">
+            <div className="bg-[#1a1a1a] rounded-xl p-6 border border-white/5 space-y-6">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#00A0A0]/10 rounded-lg flex items-center justify-center">
-                  <MapPin size={18} className="text-[#00A0A0]" />
+                <div className="w-12 h-12 bg-[#00A0A0]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <MapPin size={20} className="text-[#00A0A0]" />
                 </div>
                 <div>
-                  <p className="text-sm text-[#888888]">Address</p>
-                  <p className="text-white text-sm">
+                  <p className="text-sm font-semibold text-[#888888] mb-1">Corporate Office</p>
+                  <p className="text-white text-sm leading-relaxed">
                     {settings?.address1}
                     <br />
                     {settings?.address2}
@@ -313,11 +271,11 @@ export default function CareersContact() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#00A0A0]/10 rounded-lg flex items-center justify-center">
-                  <Mail size={18} className="text-[#00A0A0]" />
+                <div className="w-12 h-12 bg-[#00A0A0]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Mail size={20} className="text-[#00A0A0]" />
                 </div>
                 <div>
-                  <p className="text-sm text-[#888888]">Email</p>
+                  <p className="text-sm font-semibold text-[#888888] mb-1">General Inquiries</p>
                   <a
                     href={`mailto:${settings?.email}`}
                     className="text-white text-sm hover:text-[#00A0A0] transition-colors"
@@ -328,11 +286,11 @@ export default function CareersContact() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#00A0A0]/10 rounded-lg flex items-center justify-center">
-                  <Phone size={18} className="text-[#00A0A0]" />
+                <div className="w-12 h-12 bg-[#00A0A0]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Phone size={20} className="text-[#00A0A0]" />
                 </div>
                 <div>
-                  <p className="text-sm text-[#888888]">Phone</p>
+                  <p className="text-sm font-semibold text-[#888888] mb-1">Phone</p>
                   <a
                     href={`tel:${settings?.phone?.replace(/\./g, '')}`}
                     className="text-white text-sm hover:text-[#00A0A0] transition-colors"
@@ -343,110 +301,8 @@ export default function CareersContact() {
               </div>
             </div>
 
-            {/* Contact Form */}
-            <div className="bg-[#1a1a1a] rounded-xl p-6 border border-white/5">
-              <h3 className="text-lg font-bold text-white mb-4">
-                Send Us a Message
-              </h3>
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm text-[#888888] mb-1">
-                      First Name <span className="text-[#c94e4e]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#00A0A0] transition-colors"
-                      placeholder="John"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm text-[#888888] mb-1">
-                      Last Name <span className="text-[#c94e4e]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#00A0A0] transition-colors"
-                      placeholder="Doe"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm text-[#888888] mb-1">
-                    Email <span className="text-[#c94e4e]">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#00A0A0] transition-colors"
-                    placeholder="john@example.com"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm text-[#888888] mb-1">
-                    Phone
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#00A0A0] transition-colors"
-                    placeholder="(555) 123-4567"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm text-[#888888] mb-1">
-                    Message <span className="text-[#c94e4e]">*</span>
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={4}
-                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#00A0A0] transition-colors resize-none"
-                    placeholder="How can we help you?"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send size={16} />
-                      Send Message
-                    </>
-                  )}
-                </button>
-              </form>
-            </div>
-
-            {/* Map Embed */}
-            <div className="rounded-xl overflow-hidden border border-white/5 h-[200px]">
+            {/* Map Embed - Made taller to fill the space where the form used to be */}
+            <div className="rounded-xl overflow-hidden border border-white/5 h-[400px]">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3456.789!2d-95.573673!3d29.987799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjnCsDU5JzE2LjEiTiA5NcKwMzQnMjUuMiJX!5e0!3m2!1sen!2sus!4v1234567890"
                 width="100%"
@@ -474,7 +330,7 @@ export default function CareersContact() {
             </DialogTitle>
           </DialogHeader>
           {selectedJobData && (
-            <div className="mt-4 space-y-4">
+            <div className="mt-4 space-y-6">
               <div className="flex items-center gap-4 text-sm text-[#888888]">
                 <span>{selectedJobData.location}</span>
                 <span className="text-[#00A0A0] bg-[#00A0A0]/10 px-2 py-0.5 rounded">
@@ -484,7 +340,7 @@ export default function CareersContact() {
               
               <div>
                 <h4 className="text-sm font-semibold text-white mb-2">Description</h4>
-                <p className="text-[#888888] text-sm leading-relaxed">
+                <p className="text-[#888888] text-sm leading-relaxed whitespace-pre-wrap">
                   {selectedJobData.description}
                 </p>
               </div>
@@ -495,22 +351,27 @@ export default function CareersContact() {
                   {selectedJobData.requirements.map((req, i) => (
                     <li
                       key={i}
-                      className="flex items-center gap-2 text-[#888888] text-sm"
+                      className="flex items-start gap-2 text-[#888888] text-sm"
                     >
-                      <CheckCircle size={14} className="text-[#00A0A0] flex-shrink-0" />
-                      {req}
+                      <CheckCircle size={16} className="text-[#00A0A0] mt-0.5 flex-shrink-0" />
+                      <span className="leading-relaxed">{req}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <a
-                href={`mailto:${settings?.resumeEmail}`}
-                className="inline-flex items-center gap-2 btn-primary mt-4"
-              >
-                <Mail size={16} />
-                Apply Now
-              </a>
+              {/* Redesigned Apply Info Box */}
+              <div className="mt-6 p-5 bg-[#00A0A0]/10 border border-[#00A0A0]/20 rounded-lg flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="p-3 bg-[#00A0A0]/20 rounded-full flex-shrink-0">
+                  <Mail size={24} className="text-[#00A0A0]" />
+                </div>
+                <div>
+                  <p className="text-white font-medium mb-1">Interested in this position?</p>
+                  <p className="text-[#888888] text-sm">
+                    Please submit your resume to <a href={`mailto:${resumeEmail}`} className="text-[#00A0A0] hover:text-[#00CCCC] transition-colors">{resumeEmail}</a>
+                  </p>
+                </div>
+              </div>
             </div>
           )}
         </DialogContent>
