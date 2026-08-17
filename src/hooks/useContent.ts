@@ -83,53 +83,78 @@ function parseFrontmatter(content: string): { frontmatter: Record<string, any>; 
 
   const frontmatterText = match[1];
   const body = match[2].trim();
-
   const frontmatter: Record<string, any> = {};
   const lines = frontmatterText.split('\n');
-  let currentKey = '';
-  let inList = false;
-  let listItems: string[] = [];
 
-  for (const line of lines) {
-    const listMatch = line.match(/^  - (.+)$/);
-    if (listMatch) {
-      if (!inList) {
-        inList = true;
-        listItems = [];
+  let currentKey = '';
+  let isMultiline = false;
+  let isList = false;
+
+  for (let line of lines) {
+    // Skip empty lines, but preserve them if we are inside a multi-line paragraph
+    if (line.trim() === '') {
+      if (isMultiline && currentKey) {
+        frontmatter[currentKey] += '\n';
       }
-      listItems.push(listMatch[1]);
       continue;
     }
 
-    if (inList && currentKey) {
-      frontmatter[currentKey] = listItems;
-      inList = false;
-      listItems = [];
-    }
+    // 1. Check for a new key-value pair (e.g., "title: Piping Designer")
+    const kvMatch = line.match(/^([a-zA-Z0-9_]+):\s*(.*)$/);
 
-    const keyValueMatch = line.match(/^([^:]+):\s*(.+)?$/);
-    if (keyValueMatch) {
-      currentKey = keyValueMatch[1].trim();
-      let currentValue: any = keyValueMatch[2]?.trim() || '';
+    if (kvMatch && !line.startsWith(' ') && !line.startsWith('-')) {
+      currentKey = kvMatch[1].trim();
+      let rawValue = kvMatch[2].trim();
 
-      if (currentValue.startsWith('"') && currentValue.endsWith('"')) {
-        currentValue = currentValue.slice(1, -1);
+      isMultiline = false;
+      isList = false;
+
+      // Detect CMS multi-line string indicators
+      if (rawValue === '>-' || rawValue === '>' || rawValue === '|') {
+        isMultiline = true;
+        frontmatter[currentKey] = '';
+        continue;
       }
 
-      if (currentValue === 'true') currentValue = true;
-      if (currentValue === 'false') currentValue = false;
-      if (!isNaN(Number(currentValue)) && currentValue !== '') {
-        currentValue = Number(currentValue);
+      // An empty value means a list is likely starting on the next line
+      if (rawValue === '') {
+        isList = true;
+        frontmatter[currentKey] = [];
+        continue;
       }
 
-      frontmatter[currentKey] = currentValue;
-    } else if (currentKey && line.startsWith('  ')) {
-      frontmatter[currentKey] += (frontmatter[currentKey] ? '\n' : '') + line.trim();
-    }
-  }
+      // Clean standard single-line values
+      let val: any = rawValue;
+      if (val.startsWith('"') && val.endsWith('"')) val = val.slice(1, -1);
+      else if (val.startsWith("'") && val.endsWith("'")) val = val.slice(1, -1);
+      else if (val === 'true') val = true;
+      else if (val === 'false') val = false;
+      else if (!isNaN(Number(val)) && val !== '') val = Number(val);
 
-  if (inList && currentKey) {
-    frontmatter[currentKey] = listItems;
+      frontmatter[currentKey] = val;
+      continue;
+    }
+
+    // 2. Read multi-line string text (ignores internal bullet points)
+    if (isMultiline && currentKey) {
+      const cleanLine = line.replace(/^[\s]*/, ''); // Strip YAML indent
+      frontmatter[currentKey] += (frontmatter[currentKey] ? '\n' : '') + cleanLine;
+      continue;
+    }
+
+    // 3. Read structural list items
+    const listMatch = line.match(/^[\s]*- (.*)$/);
+    if (isList && listMatch) {
+      let listItem = listMatch[1].trim();
+      if (listItem.startsWith('"') && listItem.endsWith('"')) listItem = listItem.slice(1, -1);
+      else if (listItem.startsWith("'") && listItem.endsWith("'")) listItem = listItem.slice(1, -1);
+
+      if (!Array.isArray(frontmatter[currentKey])) {
+         frontmatter[currentKey] = [];
+      }
+      frontmatter[currentKey].push(listItem);
+      continue;
+    }
   }
 
   return { frontmatter, body };
