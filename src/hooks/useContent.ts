@@ -235,40 +235,34 @@ export function useJobs() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadJobs = async () => {
-      try {
-        const jobFiles = [
-          '/content/jobs/electrical-design-engineer.md',
-        ];
-
-        const loadedJobs: Job[] = [];
-        for (const file of jobFiles) {
-          const response = await fetch(file);
-          if (!response.ok) continue;
-          
-          const content = await response.text();
-          const { frontmatter } = parseFrontmatter(content);
-          const slug = file.split('/').pop()?.replace('.md', '') || '';
-          loadedJobs.push({
-            slug,
-            title: frontmatter.title || '',
-            location: frontmatter.location || '',
-            department: frontmatter.department || '',
-            active: frontmatter.active ?? true,
-            description: frontmatter.description || '',
-            requirements: frontmatter.requirements || [],
-          });
-        }
-
-        setJobs(loadedJobs.filter(job => job.active));
-      } catch (error) {
-        console.error('Error loading jobs:', error);
-      } finally {
-        setLoading(false);
+    try {
+      // Automatically scans the folder for ANY markdown file the CMS creates
+      const jobFiles = import.meta.glob('/public/content/jobs/*.md', { as: 'raw', eager: true });
+      const loadedJobs: Job[] = [];
+      
+      for (const path in jobFiles) {
+        const content = jobFiles[path] as string;
+        const { frontmatter } = parseFrontmatter(content);
+        const slug = path.split('/').pop()?.replace('.md', '') || '';
+        
+        loadedJobs.push({
+          slug,
+          title: frontmatter.title || '',
+          location: frontmatter.location || '',
+          department: frontmatter.department || '',
+          active: frontmatter.active ?? true,
+          description: frontmatter.description || '',
+          requirements: frontmatter.requirements || [],
+        });
       }
-    };
 
-    loadJobs();
+      // Filter out any jobs marked as inactive in the CMS
+      setJobs(loadedJobs.filter(job => job.active));
+    } catch (error) {
+      console.error('Error loading jobs:', error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   return { jobs, loading };
