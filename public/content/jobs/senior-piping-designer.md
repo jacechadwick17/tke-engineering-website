@@ -1,7 +1,7 @@
 ---
 title: Senior Piping Designer
 location: 20239 SH 249 Houston TX 77070
-department: Electrical
+department: Mechanical
 active: true
 description: >-
   Responsibilities:
