@@ -2,7 +2,7 @@
 title: Entry Level Drafter/Designer
 location: 20329 SH 249 Houston TX 77070
 department: Mechanical
-active: true
+active: false
 description: >-
   Responsibilities
 
