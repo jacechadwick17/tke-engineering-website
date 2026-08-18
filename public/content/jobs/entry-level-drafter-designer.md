@@ -20,8 +20,8 @@ requirements:
   - Proficient in AutoCAD; experience with CadWorx is a plus.
   - Experience developing piping layouts and design drawings for compressor
     stations, meter stations, or similar oil and gas projects is a plus.
-  - Ability to comprehend and interpret drawing packages, design deliverables,
-    and technical documentation.
   - Strong attention to detail.
   - Ability to successfully complete a CAD skills assessment.
+  - Ability to comprehend and interpret drawing packages, design deliverables,
+    and technical documentation
 ---
